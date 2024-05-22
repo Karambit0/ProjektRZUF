@@ -1,6 +1,6 @@
 ﻿using SFML.Window;
 
-namespace Nie
+namespace Sim
 {
     class Program
     {

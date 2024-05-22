@@ -1,7 +1,7 @@
 using SFML.Window;
 using SFML.Graphics;
 
-namespace Nie
+namespace Sim
 {
     class Game_Window
     {
