@@ -1,15 +1,15 @@
 {
   "version": 2,
-  "dgSpecHash": "HjrOhUZhanuhrFzaYC0rHWqAaTaA3Ft0G/g2oN6kiuS7u8mydD+41rNDFM585hReHqWmmD6DjOTNeRMFi/ouVQ==",
+  "dgSpecHash": "mkuIVQyAl5Y=",
   "success": true,
-  "projectFilePath": "/home/karambito/Desktop/ProjektRZUF/rzuf/rzuf.csproj",
+  "projectFilePath": "C:\\Inholland study\\Programing1.1\\ProjektRZUF\\rzuf\\rzuf.csproj",
   "expectedPackageFiles": [
-    "/home/karambito/.nuget/packages/csfml/2.5.2/csfml.2.5.2.nupkg.sha512",
-    "/home/karambito/.nuget/packages/sfml.audio/2.5.1/sfml.audio.2.5.1.nupkg.sha512",
-    "/home/karambito/.nuget/packages/sfml.graphics/2.5.1/sfml.graphics.2.5.1.nupkg.sha512",
-    "/home/karambito/.nuget/packages/sfml.net/2.5.1/sfml.net.2.5.1.nupkg.sha512",
-    "/home/karambito/.nuget/packages/sfml.system/2.5.1/sfml.system.2.5.1.nupkg.sha512",
-    "/home/karambito/.nuget/packages/sfml.window/2.5.1/sfml.window.2.5.1.nupkg.sha512"
+    "C:\\Users\\ACER\\.nuget\\packages\\csfml\\2.5.2\\csfml.2.5.2.nupkg.sha512",
+    "C:\\Users\\ACER\\.nuget\\packages\\sfml.audio\\2.5.1\\sfml.audio.2.5.1.nupkg.sha512",
+    "C:\\Users\\ACER\\.nuget\\packages\\sfml.graphics\\2.5.1\\sfml.graphics.2.5.1.nupkg.sha512",
+    "C:\\Users\\ACER\\.nuget\\packages\\sfml.net\\2.5.1\\sfml.net.2.5.1.nupkg.sha512",
+    "C:\\Users\\ACER\\.nuget\\packages\\sfml.system\\2.5.1\\sfml.system.2.5.1.nupkg.sha512",
+    "C:\\Users\\ACER\\.nuget\\packages\\sfml.window\\2.5.1\\sfml.window.2.5.1.nupkg.sha512"
   ],
   "logs": []
 }

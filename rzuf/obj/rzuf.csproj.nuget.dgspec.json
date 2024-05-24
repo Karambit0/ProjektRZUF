@@ -1,25 +1,27 @@
 {
   "format": 1,
   "restore": {
-    "/home/karambito/Desktop/ProjektRZUF/rzuf/rzuf.csproj": {}
+    "C:\\Inholland study\\Programing1.1\\ProjektRZUF\\rzuf\\rzuf.csproj": {}
   },
   "projects": {
-    "/home/karambito/Desktop/ProjektRZUF/rzuf/rzuf.csproj": {
+    "C:\\Inholland study\\Programing1.1\\ProjektRZUF\\rzuf\\rzuf.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/karambito/Desktop/ProjektRZUF/rzuf/rzuf.csproj",
+        "projectUniqueName": "C:\\Inholland study\\Programing1.1\\ProjektRZUF\\rzuf\\rzuf.csproj",
         "projectName": "rzuf",
-        "projectPath": "/home/karambito/Desktop/ProjektRZUF/rzuf/rzuf.csproj",
-        "packagesPath": "/home/karambito/.nuget/packages/",
-        "outputPath": "/home/karambito/Desktop/ProjektRZUF/rzuf/obj/",
+        "projectPath": "C:\\Inholland study\\Programing1.1\\ProjektRZUF\\rzuf\\rzuf.csproj",
+        "packagesPath": "C:\\Users\\ACER\\.nuget\\packages\\",
+        "outputPath": "C:\\Inholland study\\Programing1.1\\ProjektRZUF\\rzuf\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/karambito/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\ACER\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -64,7 +66,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/8.0.204/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.300/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
