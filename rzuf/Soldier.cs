@@ -1,14 +1,15 @@
-
 namespace Sim
 {
-    class Soldier
+    class Soldier :Creature
     {
        int dmg;
        int baseSpeed;
        double attackSpeed;
        int xpPerKill;
 
-       
+       public void Move()
+       {
+       }
      
     }
 

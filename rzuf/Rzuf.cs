@@ -1,4 +1,3 @@
-
 namespace Sim
 {
     class Rzuf : Creature
@@ -7,6 +6,14 @@ namespace Sim
         int lv;
         Weapon Gun = new Weapon();
 
+         public void Heal()
+        {
+        }
+
+        public void LvUp()
+        {
+        }
+
     }
 
     class Weapon
@@ -14,12 +21,12 @@ namespace Sim
         int damage;
         int currentAmmo,maxAmmo;
 
-        void Reload()
+        public void Reload()
         {
             currentAmmo = maxAmmo;
             ///
         }
-
+        
 
     }
 }

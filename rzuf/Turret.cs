@@ -1,4 +1,3 @@
-
 namespace Sim
 {
     class Turret : Soldier

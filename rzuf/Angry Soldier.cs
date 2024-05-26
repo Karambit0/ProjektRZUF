@@ -1,4 +1,3 @@
-
 namespace Sim
 {
     class AngrySoldier : Soldier

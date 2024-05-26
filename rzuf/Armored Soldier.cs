@@ -1,13 +1,13 @@
-
-
 namespace Sim
 {
     class ArmoredSoldier : Soldier
     {
-      bool shieldUp;
+      bool shield;
         
 
-       
+      public void ShieldUp()
+      {
+      }
      
     }
 
