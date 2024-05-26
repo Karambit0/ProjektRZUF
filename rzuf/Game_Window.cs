@@ -7,21 +7,27 @@ namespace Sim
     {
         public Game_Window()
         {
-            RenderWindow okienko = new RenderWindow(new VideoMode(800,600),"World!");
+            RenderWindow okienko = new RenderWindow(new VideoMode(800,600),"Rzuf!");
             Color kolor = new Color(0,2,230);
 
             okienko.Closed += HandleClose;
-
+            Texture tekstura = new Texture("rzuf.jpeg");
+            Sprite rzuf = new Sprite(tekstura);
+            rzuf.Position = new SFML.System.Vector2f(200.0f, 200.0f);
+           
+            
             while (okienko.IsOpen)
             {
               okienko.DispatchEvents();  
               okienko.Clear(kolor);
+              okienko.Draw(rzuf);
               okienko.Display();
             }
             void HandleClose(object sender, EventArgs e)
             {
                 okienko.Close();
             }
+           
         }
     }
 }
