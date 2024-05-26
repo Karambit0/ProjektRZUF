@@ -1,27 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Inholland study\\Programing1.1\\ProjektRZUF\\rzuf.test\\rzuf.test.csproj": {}
+    "/home/karambito/Desktop/ProjektRZUF/rzuf.test/rzuf.test.csproj": {}
   },
   "projects": {
-    "C:\\Inholland study\\Programing1.1\\ProjektRZUF\\rzuf.test\\rzuf.test.csproj": {
+    "/home/karambito/Desktop/ProjektRZUF/rzuf.test/rzuf.test.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Inholland study\\Programing1.1\\ProjektRZUF\\rzuf.test\\rzuf.test.csproj",
+        "projectUniqueName": "/home/karambito/Desktop/ProjektRZUF/rzuf.test/rzuf.test.csproj",
         "projectName": "rzuf.test",
-        "projectPath": "C:\\Inholland study\\Programing1.1\\ProjektRZUF\\rzuf.test\\rzuf.test.csproj",
-        "packagesPath": "C:\\Users\\ACER\\.nuget\\packages\\",
-        "outputPath": "C:\\Inholland study\\Programing1.1\\ProjektRZUF\\rzuf.test\\obj\\",
+        "projectPath": "/home/karambito/Desktop/ProjektRZUF/rzuf.test/rzuf.test.csproj",
+        "packagesPath": "/home/karambito/.nuget/packages/",
+        "outputPath": "/home/karambito/Desktop/ProjektRZUF/rzuf.test/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\ACER\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/home/karambito/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -78,7 +76,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.300/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/8.0.204/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
