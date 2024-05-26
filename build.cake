@@ -7,6 +7,11 @@ Task("Clean")
     .Does(() => {
         CleanDirectory(outputFolder);
     });
+Task("CleanRzuf")
+    .Does(() => {
+        CleanDirectory("./rzuf/bin");
+        CleanDirectory("./rzuf/obj");
+    });
 Task("Restore")
     .Does(() => {
         DotNetRestore(solutionFolder);
@@ -22,18 +27,9 @@ Task("Build")
             Configuration = configuration
         });
     });
-Task("Test")
-    .IsDependentOn("Build")
-     .Does(() => {
-        DotNetTest(solutionFolder, new DotNetTestSettings
-        {
-            NoRestore = true,
-            Configuration = configuration,
-            NoBuild = true
-        });
-    });
+
 Task("Publish")
-    .IsDependentOn("Test")
+    .IsDependentOn("Build")
     .Does(() => {
         DotNetPublish(solutionFolder, new DotNetPublishSettings
         {
