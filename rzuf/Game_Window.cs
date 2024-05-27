@@ -11,10 +11,9 @@ namespace Sim
             Color kolor = new Color(0,2,230);
 
             okienko.Closed += HandleClose;
-            Texture tekstura = new Texture("rzuf.jpeg");
+            Texture tekstura = new Texture("resources/rzuf.jpeg");
             Sprite rzuf = new Sprite(tekstura);
             rzuf.Position = new SFML.System.Vector2f(200.0f, 200.0f);
-           
             
             while (okienko.IsOpen)
             {

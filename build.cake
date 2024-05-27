@@ -2,15 +2,11 @@ var target = Argument("target","Publish");
 var configuration = Argument("configuration","Release");
 var solutionFolder = "./";
 var outputFolder = "./files";
+var rzufFolder = "./rzuf";
 
 Task("Clean")
     .Does(() => {
         CleanDirectory(outputFolder);
-    });
-Task("CleanRzuf")
-    .Does(() => {
-        CleanDirectory("./rzuf/bin");
-        CleanDirectory("./rzuf/obj");
     });
 Task("Restore")
     .Does(() => {
@@ -38,6 +34,10 @@ Task("Publish")
             NoBuild = true,
             OutputDirectory = outputFolder
         });
+        CreateDirectory(outputFolder+"/resources");
+        CopyDirectory(rzufFolder+"/resources",outputFolder+"/resources");
+        CleanDirectory(rzufFolder+"/bin");
+        CleanDirectory(rzufFolder+"/obj");
     });
 
 RunTarget(target);
