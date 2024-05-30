@@ -1,9 +1,12 @@
+using SFML.Graphics;
+
 namespace Sim
 {
     class Rzuf : Creature
     {
  
         int lv;
+        public Sprite sprite = new Sprite();
         Weapon Gun = new Weapon();
 
          public void Heal()

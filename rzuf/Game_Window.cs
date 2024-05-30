@@ -7,19 +7,26 @@ namespace Sim
     {
         public Game_Window()
         {
-            RenderWindow okienko = new RenderWindow(new VideoMode(800,600),"Rzuf!");
+            RenderWindow okienko = new RenderWindow(new VideoMode(1920,1280),"Rzuf!");
             Color kolor = new Color(0,2,230);
 
             okienko.Closed += HandleClose;
-            Texture tekstura = new Texture("resources/rzuf.jpeg");
-            Sprite rzuf = new Sprite(tekstura);
-            rzuf.Position = new SFML.System.Vector2f(200.0f, 200.0f);
+            
+            Texture soldier = new Texture("resources/soldier.png");
+            Texture rzuf = new Texture("resources/rzuf.png");
+            Rzuf gracz = new Rzuf();
+            Sprite sprite = new Sprite(rzuf);
+            int posX, posY;
+            Random cords = new Random();
+            posX = cords.Next(100, 1820);
+            posY = cords.Next(100, 1180);
+            sprite.Position = new SFML.System.Vector2f(posX, posY);
             
             while (okienko.IsOpen)
             {
               okienko.DispatchEvents();  
               okienko.Clear(kolor);
-              okienko.Draw(rzuf);
+              okienko.Draw(sprite);
               okienko.Display();
             }
             void HandleClose(object sender, EventArgs e)
