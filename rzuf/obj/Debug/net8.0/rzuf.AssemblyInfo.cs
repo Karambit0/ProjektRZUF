@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("rzuf")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9a8b3f4753d05249ae229434c9f51739dd9203a4")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+eba10321026b2d24e21cc2e60393caa9777a0a26")]
 [assembly: System.Reflection.AssemblyProductAttribute("rzuf")]
 [assembly: System.Reflection.AssemblyTitleAttribute("rzuf")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
