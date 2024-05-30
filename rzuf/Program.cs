@@ -6,7 +6,7 @@ namespace Sim
     {
         static void Main(string[] args)
         {
-           Game_Window okienko = new Game_Window();
+           //Game_Window okienko = new Game_Window();
            List<Creature> potwory = new List<Creature>();
            Random losu = new Random();
            int losulosu;
@@ -34,13 +34,27 @@ namespace Sim
                 AngrySoldier soldier = new AngrySoldier();
                 potwory.Add(soldier);
             }
-            Console.WriteLine("Aktualne potwory: ");
-            foreach(Creature potwor in potwory)
-            {
-              Console.WriteLine(potwor.GetType());  
-            }
-
+           // Console.WriteLine("Aktualne potwory: ");
+            //foreach(Creature potwor in potwory)
+            //{
+           //   Console.WriteLine(potwor.GetType());  
+           // }
            }
+
+           
+            Soldier s1 = new Soldier();
+            s1.currentHP = 10;
+            ArmoredSoldier s2 = new ArmoredSoldier();
+            s2.currentHP = 15;
+
+            s1.Attack(7,s2);
+            System.Console.WriteLine(s2.currentHP);
+            s2.ShieldUp();
+            s1.Attack(3,s2);
+            System.Console.WriteLine(s2.currentHP);
+
+
+           
         }
     }
 }

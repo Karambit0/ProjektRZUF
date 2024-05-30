@@ -12,21 +12,21 @@ namespace Sim
 
             okienko.Closed += HandleClose;
             
-            Texture soldier = new Texture("resources/soldier.png");
-            Texture rzuf = new Texture("resources/rzuf.png");
-            Rzuf gracz = new Rzuf();
-            Sprite sprite = new Sprite(rzuf);
+            //Texture soldier = new Texture("resources/soldier.png");
+           // Texture rzuf = new Texture("resources/rzuf.png");
+           Rzuf gracz = new Rzuf();
+          // Sprite sprite = new Sprite(rzuf);
             int posX, posY;
             Random cords = new Random();
             posX = cords.Next(100, 1820);
             posY = cords.Next(100, 1180);
-            sprite.Position = new SFML.System.Vector2f(posX, posY);
+           // sprite.Position = new SFML.System.Vector2f(posX, posY);
             
             while (okienko.IsOpen)
             {
               okienko.DispatchEvents();  
               okienko.Clear(kolor);
-              okienko.Draw(sprite);
+         //     okienko.Draw(sprite);
               okienko.Display();
             }
             void HandleClose(object sender, EventArgs e)

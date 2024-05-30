@@ -10,10 +10,10 @@ namespace Sim
         {
             return _target.TakeDamage(_damage);
         }
-        public int TakeDamage(int _damage)
+        virtual public int TakeDamage(int _damage)
         {   
             
-            currentHP -= _damage;
+            currentHP = currentHP - _damage;
             if(currentHP<=0)
             {return 0;
             }
