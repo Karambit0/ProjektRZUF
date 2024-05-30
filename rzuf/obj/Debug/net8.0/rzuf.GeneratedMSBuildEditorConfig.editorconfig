@@ -8,6 +8,6 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = rzuf
-build_property.ProjectDir = /home/karambito/Desktop/ProjektRZUF/rzuf/
+build_property.ProjectDir = C:\Inholland study\Programing1.1\ProjektRZUF\rzuf\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
