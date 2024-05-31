@@ -8,8 +8,11 @@ namespace Sim
         {
             //init game engine
             Controller controller = new Controller();
+            //don't touch, it allows window to be closed
             controller.window.Closed += controller.HandleClose;
-            controller.GenerateEnemies(100,10,40,20,20);
+            //generate list of enemies
+            controller.GenerateEnemies(100,25,25,25,25);
+            //spawn creatures (rzuf is always the same so no GenerateRzuf)
             controller.SpawnEnemies();
             controller.SpawnPlayer();
 

@@ -1,13 +1,14 @@
 using SFML.Graphics;
+using SFML.System;
 
 namespace Sim
 {
     abstract class Creature
     {
         public int currentHP,maxHP;
-        public float posX, posY;
+        public Vector2f position; //contains position.X and position.Y, easier to move objects
 
-        public Sprite sprite = new Sprite();
+        public Sprite sprite = new Sprite(); //sprite of the creature
 
         //returns 1 if target is alive, 0 if dead;
         public int Attack(int _damage, Creature _target)

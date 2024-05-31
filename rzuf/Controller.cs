@@ -17,6 +17,7 @@ namespace Sim
         public static List<Creature> enemies = new List<Creature>(); //list of enemies
         public static Rzuf rzuf = new Rzuf(); //player
         Random losu = new Random(); //random bullshit generator
+        int enemyCount;
 
         //private functions
         private void InitWindow() //declare properties of window
@@ -57,7 +58,8 @@ namespace Sim
             fifth parameter: chance for spawning Angry Soldier (in %)
             */
             int losulosu;
-            for(int i = 0; i<number+1; i++)
+            this.enemyCount = number;
+            for(int i = 0; i<number; i++)
             {
 
                 losulosu = losu.Next(0,100);
@@ -87,33 +89,61 @@ namespace Sim
         public void SpawnEnemies()
         {
             /*
-            Spawns enemies and sets their textures and positions, depending on the type;
+            Spawns enemies and sets their textures, speed and positions, depending on the type;
             */
             //creates textures for enemies
            Texture soldierSprite = new Texture("resources/soldier.png");
            Texture turretSprite = new Texture("resources/turret.png");
            Texture armoredSoldierSprite = new Texture("resources/armoredsoldier.png");
            Texture angrySoldierSprite = new Texture("resources/angrysoldier.png");
-           foreach(Creature soldier in enemies)
+           foreach(Soldier soldier in enemies)
            {    //randomizes enemies' positions
-                soldier.posX = losu.Next(100,1820);
-                soldier.posY = losu.Next(100,1180);
-                soldier.sprite.Position = new SFML.System.Vector2f(soldier.posX,soldier.posY);
-                //sets enemies' sprites
-                if(soldier.GetType()== typeof(Soldier))
+                soldier.position.X = losu.Next(100,1820);
+                soldier.position.Y = losu.Next(100,1180);
+                soldier.sprite.Position = soldier.position;
+                //sets enemies' properties
+                if(soldier.GetType()== typeof(Soldier)) //here we can declare starting properties of Soldier
+                {
+                soldier.speedX = 5;
+                soldier.speedY =  soldier.speedX;
                 soldier.sprite.Texture = soldierSprite;
-                if(soldier.GetType()== typeof(AngrySoldier))
+                }
+                if(soldier.GetType()== typeof(AngrySoldier)) //here we can declare starting properties of Angry Soldier
+                {
+                soldier.speedX = 7;
+                soldier.speedY =  soldier.speedX;
                 soldier.sprite.Texture = angrySoldierSprite;
-                if(soldier.GetType()== typeof(ArmoredSoldier))
+                }
+                if(soldier.GetType()== typeof(ArmoredSoldier)) //here we can declare starting properties of Armored Soldier
+                {
+                soldier.speedX = 4;
+                soldier.speedY =  soldier.speedX;
                 soldier.sprite.Texture = armoredSoldierSprite;
-                if(soldier.GetType()== typeof(Turret))
+                }
+                if(soldier.GetType()== typeof(Turret)) //here we can declare starting properties of Turret
+                {
+                soldier.speedX = 0;
+                soldier.speedY =  soldier.speedX;
                 soldier.sprite.Texture = turretSprite;
+                }
            }
         }
         //game logic
         void UpdateEnemies()
         {
-
+                //moving enemies
+            foreach(Soldier soldier in enemies)
+            {   
+                //to be removed later, now it allows enemies to bounce back in window, because it's funny
+                if(soldier.position.X<0||soldier.position.X>1820)
+                    soldier.speedX*= -1;
+                if(soldier.position.Y<0||soldier.position.Y>1180)
+                    soldier.speedY*= -1;
+                    //moving enemy sprite based on its position and speed
+                soldier.position.X += soldier.speedX; 
+                soldier.position.Y += soldier.speedY;
+                soldier.sprite.Position = soldier.position;
+            }
         }
         public void Update()
         {

@@ -6,7 +6,6 @@ namespace Sim
     {
  
         int lv;
-        public Sprite sprite = new Sprite();
         Weapon Gun = new Weapon();
 
          public void Heal()
