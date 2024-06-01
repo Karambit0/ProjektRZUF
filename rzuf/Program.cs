@@ -7,7 +7,7 @@ namespace Sim
         static void Main(string[] args)
         {
             //init game engine
-            Controller controller = new Controller(1920,1280,60); //width, height, framerate
+            Controller controller = new Controller(1280,720,60); //width, height, framerate
             //don't touch, it allows window to be closed
             controller.window.Closed += controller.HandleClose;
             //generate list of enemies
