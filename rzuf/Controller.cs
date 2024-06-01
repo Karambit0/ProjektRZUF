@@ -2,6 +2,7 @@ using SFML.Window;
 using SFML.Graphics;
 using SFML.System;
 using SFML.Audio;
+using System.Runtime.Versioning;
 
 namespace Sim
 {
@@ -17,7 +18,8 @@ namespace Sim
         public static List<Creature> enemies = new List<Creature>(); //list of enemies
         public static Rzuf rzuf = new Rzuf(); //player
         Random losu = new Random(); //random bullshit generator
-        int enemyCount;
+        int enemyCount; //how many enemies in phase was generated
+        public Sprite background = new Sprite(); //spaaaaaaaace
 
         //private functions
         private void InitWindow() //declare properties of window
@@ -122,6 +124,7 @@ namespace Sim
            Texture turretSprite = new Texture("resources/turret.png");
            Texture armoredSoldierSprite = new Texture("resources/armoredsoldier.png");
            Texture angrySoldierSprite = new Texture("resources/angrysoldier.png");
+           //to do: check if textures exist
            this.SetEnemyPositions();
            foreach(Soldier soldier in enemies)
            {    //randomizes enemies' positions
@@ -175,6 +178,15 @@ namespace Sim
             this.UpdateEnemies();
         }
         //game rendering
+        public void CreateWorld()
+        {
+            Texture space = new Texture("resources/space.jpg"); //Image by Gerd Altmann from Pixabay
+            this.background.Texture = space;
+        }
+        void RenderWorld() //draws space background
+        {
+            this.window.Draw(background);
+        }
         void RenderPlayer()  //draws player sprite
         {
             this.window.Draw(rzuf.sprite);
@@ -195,8 +207,9 @@ namespace Sim
             */
             this.window.Clear();
 
-            this.RenderPlayer();
+            this.RenderWorld();
             this.RenderEnemies();
+            this.RenderPlayer();
 
             this.window.Display();
         }

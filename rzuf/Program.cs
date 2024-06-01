@@ -13,6 +13,7 @@ namespace Sim
             //generate list of enemies
             controller.GenerateEnemies(100,25,25,25,25);
             //spawn creatures (rzuf is always the same so no GenerateRzuf)
+            controller.CreateWorld();
             controller.SpawnEnemies();
             controller.SpawnPlayer();
 
