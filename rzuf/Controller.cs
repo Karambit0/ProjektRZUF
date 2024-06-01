@@ -86,6 +86,32 @@ namespace Sim
            }
         }
 
+        public void SetEnemyPositions() 
+        { //to do: maybe pass radius as arguments???
+            int losulosu;
+            foreach(Soldier soldier in enemies)
+           {    //randomizes enemies' positions
+                if(soldier.GetType()== typeof(Turret)) //turrets cannot spawn in 300px radius from rzuf
+                {
+                    losulosu = losu.Next(0,2); //it gives equal chance to spawn on left or on right
+                    if(losulosu == 0)
+                        soldier.position.X = losu.Next(0,700);
+                    else
+                        soldier.position.X = losu.Next(1200,1820);
+                soldier.position.Y = losu.Next(0,1180);
+                }
+                else //other enemies can only spawn 300px from left or right to give rzuf some time
+                {
+                losulosu = losu.Next(0,2); //it gives equal chance to spawn on left or on right
+                    if(losulosu == 0)
+                        soldier.position.X = losu.Next(0,300);
+                    else
+                       soldier.position.X = losu.Next(1520,1820); 
+                soldier.position.Y = losu.Next(0,1180);    
+                }
+                soldier.sprite.Position = soldier.position;
+           }
+        }
         public void SpawnEnemies()
         {
             /*
@@ -96,11 +122,10 @@ namespace Sim
            Texture turretSprite = new Texture("resources/turret.png");
            Texture armoredSoldierSprite = new Texture("resources/armoredsoldier.png");
            Texture angrySoldierSprite = new Texture("resources/angrysoldier.png");
+           this.SetEnemyPositions();
            foreach(Soldier soldier in enemies)
            {    //randomizes enemies' positions
-                soldier.position.X = losu.Next(100,1820);
-                soldier.position.Y = losu.Next(100,1180);
-                soldier.sprite.Position = soldier.position;
+               
                 //sets enemies' properties
                 if(soldier.GetType()== typeof(Soldier)) //here we can declare starting properties of Soldier
                 {
