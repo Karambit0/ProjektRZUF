@@ -13,6 +13,8 @@ namespace Sim
         VideoMode videoMode; //de resolution
         uint frameRate; //de framerate
 
+        int width,height;
+
         //game objects
 
         public static List<Creature> enemies = new List<Creature>(); //list of enemies
@@ -22,14 +24,6 @@ namespace Sim
         public Sprite background = new Sprite(); //spaaaaaaaace
 
         //private functions
-        private void InitWindow() //declare properties of window
-        {
-            this.videoMode.Width = 1920; //maybe pass it as argument later?
-            this.videoMode.Height = 1280; //maybe pass it as argument later?
-            this.frameRate = 60;
-            this.window = new RenderWindow(this.videoMode,"Rzuf!");
-            this.window.SetFramerateLimit(frameRate);
-        }
         public bool Running() //checking if window is open
         {
             return this.window.IsOpen;
@@ -37,6 +31,7 @@ namespace Sim
         public void HandleClose(object sender, EventArgs e) //closing the window
             {
                 this.window.Close();
+                
             }
         //fuctions
 
@@ -44,7 +39,7 @@ namespace Sim
         {  //creates texture for rzuf
             Texture rzufSprite = new Texture("resources/rzuf.png");
             //sets rzuf position
-            rzuf.sprite.Position = new SFML.System.Vector2f(900,600);
+            rzuf.sprite.Position = new SFML.System.Vector2f(this.videoMode.Width/2,this.videoMode.Height/2);
             //sets rzuf sprite
             rzuf.sprite.Texture = rzufSprite;
 
@@ -97,19 +92,19 @@ namespace Sim
                 {
                     losulosu = losu.Next(0,2); //it gives equal chance to spawn on left or on right
                     if(losulosu == 0)
-                        soldier.position.X = losu.Next(0,700);
+                        soldier.position.X = losu.Next(0, width/3);
                     else
-                        soldier.position.X = losu.Next(1200,1820);
-                soldier.position.Y = losu.Next(0,1180);
+                        soldier.position.X = losu.Next(width*2/3,width-100);
+                soldier.position.Y = losu.Next(0,height-100);
                 }
                 else //other enemies can only spawn 300px from left or right to give rzuf some time
                 {
                 losulosu = losu.Next(0,2); //it gives equal chance to spawn on left or on right
                     if(losulosu == 0)
-                        soldier.position.X = losu.Next(0,300);
+                         soldier.position.X = losu.Next(0, width/6);
                     else
-                       soldier.position.X = losu.Next(1520,1820); 
-                soldier.position.Y = losu.Next(0,1180);    
+                        soldier.position.X = losu.Next(width*5/6,width-100); 
+                soldier.position.Y = losu.Next(0,height-100);    
                 }
                 soldier.sprite.Position = soldier.position;
            }
@@ -132,26 +127,28 @@ namespace Sim
                 //sets enemies' properties
                 if(soldier.GetType()== typeof(Soldier)) //here we can declare starting properties of Soldier
                 {
-                soldier.speedX = 5;
+                soldier.baseSpeed = 5;
+                soldier.speedX = soldier.baseSpeed;
                 soldier.speedY =  soldier.speedX;
                 soldier.sprite.Texture = soldierSprite;
                 }
                 if(soldier.GetType()== typeof(AngrySoldier)) //here we can declare starting properties of Angry Soldier
                 {
-                soldier.speedX = 7;
+                soldier.baseSpeed= 7;
+                soldier.speedX = soldier.baseSpeed;
                 soldier.speedY =  soldier.speedX;
                 soldier.sprite.Texture = angrySoldierSprite;
                 }
                 if(soldier.GetType()== typeof(ArmoredSoldier)) //here we can declare starting properties of Armored Soldier
                 {
-                soldier.speedX = 4;
+                soldier.baseSpeed = 4;
+                soldier.speedX = soldier.baseSpeed;
                 soldier.speedY =  soldier.speedX;
                 soldier.sprite.Texture = armoredSoldierSprite;
                 }
                 if(soldier.GetType()== typeof(Turret)) //here we can declare starting properties of Turret
                 {
-                soldier.speedX = 0;
-                soldier.speedY =  soldier.speedX;
+                soldier.baseSpeed = 0;
                 soldier.sprite.Texture = turretSprite;
                 }
            }
@@ -214,8 +211,15 @@ namespace Sim
             this.window.Display();
         }
         //constructors
-        public Controller(){
-            InitWindow();
+        public Controller(uint width, uint height, uint fps)
+        {
+            this.videoMode.Width = width;
+            this.videoMode.Height = height;
+            this.width = checked((int)width);
+            this.height = checked((int)height);
+            this.frameRate = fps;
+            this.window = new RenderWindow(this.videoMode,"Rzuf!");
+            this.window.SetFramerateLimit(frameRate);
         }
     }
 

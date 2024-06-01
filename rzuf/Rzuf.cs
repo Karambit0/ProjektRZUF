@@ -1,5 +1,3 @@
-using SFML.Graphics;
-
 namespace Sim
 {
     class Rzuf : Creature

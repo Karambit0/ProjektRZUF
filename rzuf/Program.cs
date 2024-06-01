@@ -7,11 +7,11 @@ namespace Sim
         static void Main(string[] args)
         {
             //init game engine
-            Controller controller = new Controller();
+            Controller controller = new Controller(1920,1280,60); //width, height, framerate
             //don't touch, it allows window to be closed
             controller.window.Closed += controller.HandleClose;
             //generate list of enemies
-            controller.GenerateEnemies(100,25,25,25,25);
+            controller.GenerateEnemies(100,25,25,25,25); //number, Soldier, Turret, Armored, Angry chance
             //spawn creatures (rzuf is always the same so no GenerateRzuf)
             controller.CreateWorld();
             controller.SpawnEnemies();

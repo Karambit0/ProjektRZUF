@@ -2,8 +2,8 @@ namespace Sim
 {
     class Soldier :Creature
     {
-       int dmg;
-       public int speedX, speedY;
+       public int dmg, baseSpeed;
+       public float speedX, speedY;
        double attackSpeed;
        int xpPerKill;
 
