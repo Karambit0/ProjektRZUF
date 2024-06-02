@@ -1,6 +1,6 @@
 namespace Sim
 {
-    class ArmoredSoldier : Soldier
+   /* class ArmoredSoldier : Soldier
     {
       bool shield;
       
@@ -25,6 +25,6 @@ namespace Sim
      
     }
 
-
+*/
     
 }

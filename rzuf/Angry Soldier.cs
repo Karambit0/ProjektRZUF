@@ -1,13 +1,13 @@
 namespace Sim
 {
-    class AngrySoldier : Soldier
+   /* class AngrySoldier : Soldier
     {
         int currentSpeed;
 
 
        
      
-    }
+    }*/
 
 
     
