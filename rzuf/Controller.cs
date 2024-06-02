@@ -159,15 +159,16 @@ namespace Sim
                 //moving enemies
             foreach(Soldier soldier in enemies)
             {   
+
+
+
+
                 //to be removed later, now it allows enemies to bounce back in window, because it's funny
                 if(soldier.position.X<0||soldier.position.X>width-100)
                     soldier.speedX*= -1;
                 if(soldier.position.Y<0||soldier.position.Y>height-100)
                     soldier.speedY*= -1;
                     //moving enemy sprite based on its position and speed
-                soldier.position.X += soldier.speedX; 
-                soldier.position.Y += soldier.speedY;
-                soldier.sprite.Position = soldier.position;
             }
         }
         public void Update()

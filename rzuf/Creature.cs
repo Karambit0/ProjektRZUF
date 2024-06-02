@@ -6,6 +6,8 @@ namespace Sim
     abstract class Creature
     {
         public int currentHP,maxHP;
+        public bool alive;
+        public int delay; //counter responible of waiting
         public Vector2f position; //contains position.X and position.Y, easier to move objects
 
         public Sprite sprite = new Sprite(); //sprite of the creature
@@ -25,7 +27,11 @@ namespace Sim
             else return 1; 
         }
 
-
+        public virtual int Die()
+        {
+            alive = false;
+            return 0;
+        }
 
         
      

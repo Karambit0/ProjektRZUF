@@ -1,3 +1,5 @@
+using SFML.Graphics;
+
 namespace Sim
 {
     class Rzuf : Creature
@@ -12,6 +14,11 @@ namespace Sim
 
         public void LvUp()
         {
+        }
+
+        public override int Die()
+        {
+            return 0;
         }
 
     }
