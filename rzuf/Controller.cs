@@ -42,6 +42,8 @@ namespace Sim
             rzuf.sprite.Position = new SFML.System.Vector2f(this.videoMode.Width/2,this.videoMode.Height/2);
             //sets rzuf sprite
             rzuf.sprite.Texture = rzufSprite;
+            //
+            rzuf.position = rzuf.sprite.Position;
 
         }
         public void GenerateEnemies(int number, int chanceSoldier, int chanceTurret, int chanceArmoredSoldier, int chanceAngrySoldier)
@@ -159,9 +161,7 @@ namespace Sim
                 //moving enemies
             foreach(Soldier soldier in enemies)
             {   
-
-
-
+                soldier.Act(rzuf);
 
                 //to be removed later, now it allows enemies to bounce back in window, because it's funny
                 if(soldier.position.X<0||soldier.position.X>width-100)
