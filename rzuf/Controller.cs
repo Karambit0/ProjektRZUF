@@ -26,6 +26,8 @@ namespace Sim
         Soldier closestEnemy;
         public Sprite background = new Sprite(); //spaaaaaaaace
 
+        static public List<Sound> sounds = new List<Sound>();
+
         //private functions
         public bool Running() //checking if window is open
         {
@@ -185,12 +187,25 @@ namespace Sim
                 else
                 {
                     enemies.Remove(soldier);
+                    SoundLibrary.PlaySound("oof",sounds);
                     closestEnemyDistance = 9999;
+                }
+            }
+        }
+        void UpdateSounds()
+        {  SoundStatus status;
+            foreach(Sound sound in sounds.ToList())
+            {   
+                status = sound.Status;
+                if(status==SoundStatus.Stopped)
+                {
+                    sounds.Remove(sound);
                 }
             }
         }
         public void Update()
         {
+            this.UpdateSounds();
             this.UpdateEnemies();
             this.UpdatePlayer();
         }
