@@ -3,6 +3,7 @@ using SFML.Graphics;
 using SFML.System;
 using SFML.Audio;
 using System.Runtime.Versioning;
+using System.Net.Mail;
 
 namespace Sim
 {
@@ -18,9 +19,11 @@ namespace Sim
         //game objects
 
         public static List<Creature> enemies = new List<Creature>(); //list of enemies
-        public static Rzuf rzuf = new Rzuf(); //player
+        public static Rzuf rzuf; //player
         Random losu = new Random(); //random bullshit generator
         int enemyCount; //how many enemies in phase was generated
+        float closestEnemyDistance = 9999;
+        Soldier closestEnemy;
         public Sprite background = new Sprite(); //spaaaaaaaace
 
         //private functions
@@ -34,17 +37,18 @@ namespace Sim
                 
             }
         //fuctions
-
-        public void SpawnPlayer()
-        {  //creates texture for rzuf
+        
+        public void SpawnPlayer(int _maxHP, int _damage, int _attackDelay, int _maxAmmo)
+        {   //creates rzuf object
+            rzuf = new Rzuf(_maxHP, _damage, _attackDelay, _maxAmmo);
+            //creates texture for rzuf
             Texture rzufSprite = new Texture("resources/rzuf.png");
-            //sets rzuf position
+            //sets rzuf sprite position
             rzuf.sprite.Position = new SFML.System.Vector2f(this.videoMode.Width/2,this.videoMode.Height/2);
             //sets rzuf sprite
             rzuf.sprite.Texture = rzufSprite;
-            //
+            //sets rzuf position
             rzuf.position = rzuf.sprite.Position;
-
         }
         public void GenerateEnemies(int number, int chanceSoldier, int chanceTurret, int chanceArmoredSoldier, int chanceAngrySoldier)
         {
@@ -67,21 +71,21 @@ namespace Sim
                     Soldier soldier = new Soldier();
                     enemies.Add(soldier);
                 }
-               /* if(losulosu>chanceSoldier+1&&losulosu<chanceSoldier+chanceTurret)
+                if(losulosu>chanceSoldier+1&&losulosu<chanceSoldier+chanceTurret)
                 {
-                    Turret soldier = new Turret();
-                    enemies.Add(soldier);
+                    //Turret soldier = new Turret();
+                   // enemies.Add(soldier);
                 }
                 if(losulosu>chanceSoldier+chanceTurret+1&&losulosu<chanceSoldier+chanceTurret+chanceArmoredSoldier)
                 {
-                    ArmoredSoldier soldier = new ArmoredSoldier();
-                    enemies.Add(soldier);
+                    //ArmoredSoldier soldier = new ArmoredSoldier();
+                    //enemies.Add(soldier);
                 }
                 if(losulosu>chanceSoldier+chanceTurret+chanceArmoredSoldier+1&&losulosu<101)
                 {
-                    AngrySoldier soldier = new AngrySoldier();
-                    enemies.Add(soldier);
-                }*/
+                    //AngrySoldier soldier = new AngrySoldier();
+                    //enemies.Add(soldier);
+                }
            }
         }
 
@@ -125,18 +129,22 @@ namespace Sim
            this.SetEnemyPositions();
            foreach(Soldier soldier in enemies)
            {    //randomizes enemies' positions
-               
+              soldier.alive = true; 
                 //sets enemies' properties
                 if(soldier.GetType()== typeof(Soldier)) //here we can declare starting properties of Soldier
                 {
-                soldier.baseSpeed = 5;
+                soldier.baseSpeed = 0.5F;
+                soldier.maxHP = 20;
+                soldier.currentHP = 20;
                 soldier.speed.X = soldier.baseSpeed;
                 soldier.speed.Y =  soldier.speed.X;
                 soldier.sprite.Texture = soldierSprite;
                 }
-              /*  if(soldier.GetType()== typeof(AngrySoldier)) //here we can declare starting properties of Angry Soldier
+                /*if(soldier.GetType()== typeof(AngrySoldier)) //here we can declare starting properties of Angry Soldier
                 {
-                soldier.baseSpeed= 7;
+                soldier.baseSpeed= 1.0F;
+                soldier.maxHP = 10;
+                soldier.currentHP = 10;
                 soldier.speed.X = soldier.baseSpeed;
                 soldier.speed.Y =  soldier.speed.X;
                 soldier.sprite.Texture = angrySoldierSprite;
@@ -156,18 +164,35 @@ namespace Sim
            }
         }
         //game logic
+        void UpdatePlayer()
+        {
+            foreach(Soldier soldier in enemies)
+            {
+                if(soldier.distance<closestEnemyDistance)
+                {
+                closestEnemyDistance = soldier.distance;
+                closestEnemy = soldier;
+                }
+            }
+            rzuf.Act(closestEnemy);
+        }
         void UpdateEnemies()
         {
                 //moving enemies
-            foreach(Soldier soldier in enemies)
-            {   
-                soldier.Act(rzuf);
-
+            foreach(Soldier soldier in enemies.ToList()) //removing items causes incorrect stuff
+            {   if(soldier.alive == true)
+                    soldier.Act(rzuf);
+                else
+                {
+                    enemies.Remove(soldier);
+                    closestEnemyDistance = 9999;
+                }
             }
         }
         public void Update()
         {
             this.UpdateEnemies();
+            this.UpdatePlayer();
         }
         //game rendering
         public void CreateWorld()

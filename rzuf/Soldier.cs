@@ -7,11 +7,11 @@ namespace Sim
     class Soldier :Creature
     {
         int damage;
-        public float baseSpeed;
+        public float baseSpeed, distance;
         public Vector2f speed;
 
         int attackDelay;
-        int  attackRange = 10;
+        int  attackRange = 100;
         int xpPerKill;
         
       
@@ -27,11 +27,11 @@ namespace Sim
         }
 
 
-        public Soldier(int _HP, int _damdage, Vector2f _position, float _baseSpeed, Vector2f _target)
+        public Soldier(int _HP, int _damage, Vector2f _position, float _baseSpeed, Vector2f _target)
         {
-          currentHP = _HP;
-          maxHP = _HP;
-          damage = _damdage;
+          currentHP = 20; //_HP
+          maxHP = 20; //_HP
+          damage = _damage;
           position = _position;
           sprite.Position = _position;
 
@@ -58,11 +58,10 @@ namespace Sim
             {
               if(Utility.Distance(position,_rzuf.position) <= attackRange)
                 {
-                  if(Attack(damage,_rzuf)!=0)
-                  {
-                    _rzuf.Die();
-                  }
+                  Attack(damage,_rzuf);
                   delay += attackDelay;
+                  speed.X = 0;
+                  speed.Y = 0;
                 }
               else
                 Move(_rzuf.position);
@@ -78,6 +77,7 @@ namespace Sim
        
 
           sprite.Position = position;
+          distance = Utility.Distance(_target, position);
         }
 
         //returns amount of xp earned by kill
