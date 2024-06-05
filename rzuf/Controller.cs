@@ -9,26 +9,29 @@ namespace Sim
 {
     class Controller
     {   
-        //variables
+        //variables for window
         public RenderWindow window; //de window
         VideoMode videoMode; //de resolution
         uint frameRate; //de framerate
 
-        int width,height;
+        //game variables
+        int width,height; //width and height of window for easier use
+        int enemyCount; //how many enemies in phase was generated
+        float closestEnemyDistance = 9999; 
+        int turn = 1; //number of turns to calculate enemies' stats
 
         //game objects
 
         public static List<Creature> enemies = new List<Creature>(); //list of enemies
         public static Rzuf rzuf; //player
         Random losu = new Random(); //random bullshit generator
-        int enemyCount; //how many enemies in phase was generated
-        float closestEnemyDistance = 9999;
-        Soldier closestEnemy;
-        public Sprite background = new Sprite(); //spaaaaaaaace
+        Soldier closestEnemy; //it is temporary Soldier object to make easier for rzuf to shoot to
 
-        static public List<Sound> sounds = new List<Sound>();
+         public Sprite background = new Sprite(); //spaaaaaaaace
 
-        //private functions
+        static public List<Sound> sounds = new List<Sound>(); //list of current sounds because SFML momento
+
+        //functions
         public bool Running() //checking if window is open
         {
             return this.window.IsOpen;
@@ -38,24 +41,19 @@ namespace Sim
                 this.window.Close();
                 
             }
-        //fuctions
-        
-        public void SpawnPlayer(int _maxHP, int _damage, int _attackDelay, int _maxAmmo)
-        {   //creates rzuf object
+        //creating objects
+        public void SpawnPlayer(int _maxHP, int _damage, int _attackDelay, int _maxAmmo) //spawns rzuf object
+        {   
+            //creates rzuf object
             rzuf = new Rzuf(_maxHP, _damage, _attackDelay, _maxAmmo);
-            //creates texture for rzuf
-            Texture rzufSprite = new Texture("resources/rzuf.png");
-            //sets rzuf sprite position
-            rzuf.sprite.Position = new SFML.System.Vector2f(this.videoMode.Width/2,this.videoMode.Height/2);
-            //sets rzuf sprite
-            rzuf.sprite.Texture = rzufSprite;
-            //sets rzuf position
-            rzuf.position = rzuf.sprite.Position;
+            rzuf.position = new SFML.System.Vector2f(this.videoMode.Width/2-50,this.videoMode.Height/2-50);
+            TextureLibrary.SetSprite("rzuf", rzuf);
+            rzuf.sprite.Position = rzuf.position;
         }
-        public void GenerateEnemies(int number, int chanceSoldier, int chanceTurret, int chanceArmoredSoldier, int chanceAngrySoldier)
+        public void SpawnEnemies(int number, int chanceSoldier, int chanceTurret, int chanceArmoredSoldier, int chanceAngrySoldier)
         {
             /*
-            randomly fills enemies list with random enemy types
+            randomly fills enemies list with random enemy types and sets their sprites
             first parameter: number of enemies
             second parameter: chance for spawning Soldier (in %)
             third parameter: chance for spawning Turret (in %)
@@ -63,14 +61,14 @@ namespace Sim
             fifth parameter: chance for spawning Angry Soldier (in %)
             */
             int losulosu;
-            this.enemyCount = number;
+            this.enemyCount = number; 
             for(int i = 0; i<number; i++)
             {
-
-                losulosu = losu.Next(0,100);
+                losulosu = losu.Next(0,100); //gets random number from 0 to 100
                 if(losulosu>0&&losulosu<chanceSoldier)
                 {
-                    Soldier soldier = new Soldier();
+                    Soldier soldier = new Soldier(turn, width, height);
+                    TextureLibrary.SetSprite("soldier",soldier);
                     enemies.Add(soldier);
                 }
                 if(losulosu>chanceSoldier+1&&losulosu<chanceSoldier+chanceTurret)
@@ -90,85 +88,10 @@ namespace Sim
                 }
            }
         }
-
-        public void SetEnemyPositions() 
-        { //to do: maybe pass radius as arguments???
-            int losulosu;
-            foreach(Soldier soldier in enemies)
-           {    //randomizes enemies' positions
-               /* if(soldier.GetType()== typeof(Turret)) //turrets cannot spawn in 300px radius from rzuf
-                {
-                    losulosu = losu.Next(0,2); //it gives equal chance to spawn on left or on right
-                    if(losulosu == 0)
-                        soldier.position.X = losu.Next(0, width/3);
-                    else
-                        soldier.position.X = losu.Next(width*2/3,width-100);
-                soldier.position.Y = losu.Next(0,height-100);
-                }*/
-               // else //other enemies can only spawn 300px from left or right to give rzuf some time
-                //{
-                losulosu = losu.Next(0,2); //it gives equal chance to spawn on left or on right
-                    if(losulosu == 0)
-                         soldier.position.X = losu.Next(0, width/6);
-                    else
-                        soldier.position.X = losu.Next(width*5/6,width-100); 
-                soldier.position.Y = losu.Next(0,height-100);    
-               // }
-                soldier.sprite.Position = soldier.position;
-           }
-        }
-        public void SpawnEnemies()
-        {
-            /*
-            Spawns enemies and sets their textures, speed and positions, depending on the type;
-            */
-            //creates textures for enemies
-           Texture soldierSprite = new Texture("resources/soldier.png");
-           Texture turretSprite = new Texture("resources/turret.png");
-           Texture armoredSoldierSprite = new Texture("resources/armoredsoldier.png");
-           Texture angrySoldierSprite = new Texture("resources/angrysoldier.png");
-           //to do: check if textures exist
-           this.SetEnemyPositions();
-           foreach(Soldier soldier in enemies)
-           {    //randomizes enemies' positions
-              soldier.alive = true; 
-                //sets enemies' properties
-                if(soldier.GetType()== typeof(Soldier)) //here we can declare starting properties of Soldier
-                {
-                soldier.baseSpeed = 0.5F;
-                soldier.maxHP = 20;
-                soldier.currentHP = 20;
-                soldier.speed.X = soldier.baseSpeed;
-                soldier.speed.Y =  soldier.speed.X;
-                soldier.sprite.Texture = soldierSprite;
-                }
-                /*if(soldier.GetType()== typeof(AngrySoldier)) //here we can declare starting properties of Angry Soldier
-                {
-                soldier.baseSpeed= 1.0F;
-                soldier.maxHP = 10;
-                soldier.currentHP = 10;
-                soldier.speed.X = soldier.baseSpeed;
-                soldier.speed.Y =  soldier.speed.X;
-                soldier.sprite.Texture = angrySoldierSprite;
-                }
-                if(soldier.GetType()== typeof(ArmoredSoldier)) //here we can declare starting properties of Armored Soldier
-                {
-                soldier.baseSpeed = 4;
-                soldier.speed.X = soldier.baseSpeed;
-                soldier.speed.Y =  soldier.speed.X;
-                soldier.sprite.Texture = armoredSoldierSprite;
-                }
-                if(soldier.GetType()== typeof(Turret)) //here we can declare starting properties of Turret
-                {
-                soldier.baseSpeed = 0;
-                soldier.sprite.Texture = turretSprite;
-                }*/
-           }
-        }
         //game logic
         void UpdatePlayer()
-        {
-            foreach(Soldier soldier in enemies)
+        { 
+            foreach(Soldier soldier in enemies) //checks which enemy is closest to rzuf 
             {
                 if(soldier.distance<closestEnemyDistance)
                 {
@@ -176,23 +99,25 @@ namespace Sim
                 closestEnemy = soldier;
                 }
             }
-            rzuf.Act(closestEnemy);
+            if(enemyCount!=0) //so rzuf cannot shot when there's no enemies on screen
+            rzuf.Act(closestEnemy); //shoots closes enemy
         }
         void UpdateEnemies()
         {
                 //moving enemies
-            foreach(Soldier soldier in enemies.ToList()) //removing items causes incorrect stuff
+            foreach(Soldier soldier in enemies.ToList()) 
             {   if(soldier.alive == true)
                     soldier.Act(rzuf);
-                else
+                else    //deletes enemy from list when they're dead
                 {
                     enemies.Remove(soldier);
+                    enemyCount--;
                     SoundLibrary.PlaySound("oof",sounds);
                     closestEnemyDistance = 9999;
                 }
             }
         }
-        void UpdateSounds()
+        void UpdateSounds() //sound in SFML are stupid, so this function deletes all stopped sounds so computer not explode XD
         {  SoundStatus status;
             foreach(Sound sound in sounds.ToList())
             {   
@@ -203,17 +128,16 @@ namespace Sim
                 }
             }
         }
-        public void Update()
+        public void Update() //updates logic of game every frame
         {
             this.UpdateSounds();
             this.UpdateEnemies();
             this.UpdatePlayer();
         }
         //game rendering
-        public void CreateWorld()
+        public void SetBackground(string _type) 
         {
-            Texture space = new Texture("resources/space.jpg"); //Image by Gerd Altmann from Pixabay
-            this.background.Texture = space;
+            TextureLibrary.SetTexture(_type,background);
         }
         void RenderWorld() //draws space background
         {

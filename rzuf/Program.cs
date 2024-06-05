@@ -11,11 +11,10 @@ namespace Sim
             //don't touch, it allows window to be closed
             controller.window.Closed += controller.HandleClose;
             //generate list of enemies
-            controller.GenerateEnemies(10,100,0,0,0); //number, Soldier, Turret, Armored, Angry chance
+            controller.SpawnEnemies(10,100,0,0,0); //number, Soldier, Turret, Armored, Angry chance
             //spawn creatures
-            controller.CreateWorld();
-            controller.SpawnEnemies();
-            controller.SpawnPlayer(100,10,30,6); //maxHP, damage, attackDelay, maxAmmo
+            controller.SetBackground("space"); //space or battlefield
+            controller.SpawnPlayer(100,8,30,6); //maxHP, damage, attackDelay, maxAmmo
 
             //game loop
             while (controller.Running())

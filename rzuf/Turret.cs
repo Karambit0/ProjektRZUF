@@ -27,7 +27,15 @@
         
         int maxAmmo, currentAmmo;
         
-
+        public void SetPosition() 
+        {
+          losulosu = losu.Next(0,2); //it gives equal chance to spawn on left or on right
+                    if(losulosu == 0)
+                        soldier.position.X = losu.Next(0, width/3);
+                    else
+                        soldier.position.X = losu.Next(width*2/3,width-100);
+                soldier.position.Y = losu.Next(0,height-100);
+        }
        
      
     }

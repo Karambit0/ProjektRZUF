@@ -1,21 +1,20 @@
-
 using System.Numerics;
 using SFML.System;
-
+using SFML.Graphics;
 namespace Sim
 {
     class Soldier :Creature
     {
-        int damage;
-        public float baseSpeed, distance;
-        public Vector2f speed;
+        double damage;
+        public float baseSpeed, distance; 
+        public Vector2f speed; //sped
+        Random losu = new Random(); //random bullshit generator
 
         int attackDelay;
-        int  attackRange = 100;
+        int attackRange;
         int xpPerKill;
-        
       
-        private Vector2f SetSpeed(Vector2f _position, Vector2f _target, float _baseSpeed)
+        private Vector2f SetSpeed(Vector2f _position, Vector2f _target, float _baseSpeed) //sets speed vector so enemy goes straight to rzuf
         {
             Vector2f tempSpeed = new Vector2f
             {
@@ -25,27 +24,36 @@ namespace Sim
 
             return tempSpeed;
         }
+         public void SetPosition(int width, int height) //randomizes enemy position
+        { 
+          //enemies can only spawn 300px from left or right to give rzuf some time
+            int losulosu;
+                losulosu = losu.Next(0,2); //gives equal chance to spawn on left or on right
+                    if(losulosu == 0)
+                         position.X = losu.Next(0, width/6);
+                    else
+                        position.X = losu.Next(width*5/6,width-100); 
+                position.Y = losu.Next(0,height-100);   
+                sprite.Position = position;
+        }
+        
 
-
-        public Soldier(int _HP, int _damage, Vector2f _position, float _baseSpeed, Vector2f _target)
+        public Soldier(int _turn, int _width, int _height)
         {
-          currentHP = 20; //_HP
-          maxHP = 20; //_HP
-          damage = _damage;
-          position = _position;
-          sprite.Position = _position;
+          maxHP = 20+_turn*10;
+          currentHP = maxHP; 
+          damage = 5+_turn*2.5;
 
-          baseSpeed = _baseSpeed;
-          speed.X = _baseSpeed;
-          speed.Y = _baseSpeed;
-          attackRange = 5;
+          baseSpeed = 0.5F;
+          speed.X = baseSpeed;
+          speed.Y = baseSpeed;
+          attackRange = 100;
 
-          attackDelay = 10;
-          xpPerKill = 10;
+          attackDelay = 60;
+          xpPerKill = 10+_turn*10;
 
           alive = true;
-
-          speed = SetSpeed( _position, _target, _baseSpeed);
+          SetPosition(_width,_height);
         }
 
         public Soldier()
