@@ -17,14 +17,14 @@ namespace Sim
         {
             _target.TakeDamage(_damage);
         }
-        virtual public void TakeDamage(double _damage)
+        public  virtual void TakeDamage(double _damage)
         {   
             if(this.GetType()== typeof(Soldier))
                 {
                     this.sprite.Texture = soldierHurtSprite;
                     
                 }
-            currentHP = currentHP - _damage;
+            currentHP -= _damage;
             if(currentHP<=0)
             Die();
         }

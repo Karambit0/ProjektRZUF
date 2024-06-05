@@ -1,33 +1,68 @@
-/*namespace Sim
-//using SFML.System;
+using System.Reflection;
+using System.Security.Cryptography.X509Certificates;
+using SFML.System;
+
+namespace Sim
 {
     class Turret : Soldier
     {   
-        public Turret(int _HP, int _damdage, Vector2f _position) :base(_HP, _damdage, _position, )
+
+
+        public Turret(int _turn, int _width, int _height)
         {
-          currentHP = _HP;
-          maxHP = _HP;
-          damage = _damdage;
-          position = _position;
-          sprite.Position = _position;
+          maxHP = 20+_turn*10;
+          currentHP = maxHP; 
+          damage = 5+_turn*2.0;
 
-          baseSpeed = _baseSpeed;
-          speed.X = _baseSpeed;
-          speed.Y = _baseSpeed;
-          attackRange = 5;
+          attackRange = 300; //?
 
-          attackDelay = 10;
-          xpPerKill = 10;
+          attackDelay = 60;
+          xpPerKill = 10+_turn*10;
 
           alive = true;
+          SetPosition(_width,_height);
 
-          SetSpeed( _position, _target, _baseSpeed);
+          delay = 120;
+          realoadDelay= 90;
+          currentAmmo = 10;
+          maxAmmo = 10;
+
         }
 
         
-        int maxAmmo, currentAmmo;
+        int maxAmmo, currentAmmo, realoadDelay=15;
+
+        private void Reload()
+        {
+            currentAmmo=maxAmmo;
+            delay+=realoadDelay;
+
+        }
+
+
+        public override void Act(Creature _rzuf)
+        {
+            if(delay!=0) delay--;
+            else
+            {
+              if(Utility.Distance(position,_rzuf.position) <= attackRange)
+                {   
+                  if(currentAmmo>0)
+                    {
+                      Attack(damage,_rzuf);
+                      currentAmmo--;
+                      delay += attackDelay;
+                    }
+                    else Reload();
+                }
+            }
+        }
+
+
+
+
         
-        public void SetPosition() 
+      /*  public void SetPosition() 
         {
           losulosu = losu.Next(0,2); //it gives equal chance to spawn on left or on right
                     if(losulosu == 0)
@@ -35,11 +70,11 @@
                     else
                         soldier.position.X = losu.Next(width*2/3,width-100);
                 soldier.position.Y = losu.Next(0,height-100);
-        }
+        }*/
        
      
     }
 
 
     
-}*/
+}

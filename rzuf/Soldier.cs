@@ -5,16 +5,16 @@ namespace Sim
 {
     class Soldier :Creature
     {
-        double damage;
+        protected double damage;
         public float baseSpeed, distance; 
-        public Vector2f speed; //sped
+        protected Vector2f speed; //sped
         Random losu = new Random(); //random bullshit generator
 
-        int attackDelay;
-        int attackRange;
-        int xpPerKill;
+        protected int attackDelay;
+        protected int attackRange;
+         protected int xpPerKill;
       
-        private Vector2f SetSpeed(Vector2f _position, Vector2f _target, float _baseSpeed) //sets speed vector so enemy goes straight to rzuf
+        public static Vector2f SetSpeed(Vector2f _position, Vector2f _target, float _baseSpeed) //sets speed vector so enemy goes straight to rzuf
         {
             Vector2f tempSpeed = new Vector2f
             {
@@ -59,7 +59,7 @@ namespace Sim
         public Soldier()
         {}
 
-        public void Act(Creature _rzuf)
+        public virtual void Act(Creature _rzuf)
         {
             if(delay!=0) delay--;
             else
@@ -68,15 +68,17 @@ namespace Sim
                 {
                   Attack(damage,_rzuf);
                   delay += attackDelay;
-                  speed.X = 0;
-                  speed.Y = 0;
+
+                  //not neccecery as program shoudn't be able to rach Move()
+                  //speed.X = 0;
+                  //speed.Y = 0;
                 }
               else
                 Move(_rzuf.position);
             }
         }
         //moves towards position indicated by _target
-        void Move(Vector2f _target)
+        protected void Move(Vector2f _target)
         { 
           speed = SetSpeed(position, _target, baseSpeed);
        
