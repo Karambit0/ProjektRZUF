@@ -30,9 +30,6 @@ namespace Sim
           moveTimeCounter = moveTime;
         }
 
-      
-       
-
         public override void Act(Creature _rzuf)
         {
             if(delay!=0) delay--;
