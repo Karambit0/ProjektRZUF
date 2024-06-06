@@ -48,7 +48,7 @@ namespace Sim
                   }
                 else 
                 {
-                    shield = true;
+                    shield = true; //to repair
                     delay += waitTime;
                     moveTimeCounter += moveTime;
                 }

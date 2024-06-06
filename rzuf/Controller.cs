@@ -73,18 +73,21 @@ namespace Sim
                 }
                 if(losulosu>chanceSoldier+1&&losulosu<chanceSoldier+chanceTurret)
                 {
-                    //Turret soldier = new Turret();
-                   // enemies.Add(soldier);
+                    Soldier soldier = new Turret(turn, width, height);
+                    TextureLibrary.SetSprite("turret",soldier);
+                    enemies.Add(soldier);
                 }
                 if(losulosu>chanceSoldier+chanceTurret+1&&losulosu<chanceSoldier+chanceTurret+chanceArmoredSoldier)
                 {
-                    //ArmoredSoldier soldier = new ArmoredSoldier();
-                    //enemies.Add(soldier);
+                    Soldier soldier = new ArmoredSoldier(turn, width, height);
+                    TextureLibrary.SetSprite("armored soldier",soldier);
+                    enemies.Add(soldier);
                 }
                 if(losulosu>chanceSoldier+chanceTurret+chanceArmoredSoldier+1&&losulosu<101)
                 {
-                    //AngrySoldier soldier = new AngrySoldier();
-                    //enemies.Add(soldier);
+                    Soldier soldier = new AngrySoldier(turn, width, height);
+                    TextureLibrary.SetSprite("angry soldier",soldier);
+                    enemies.Add(soldier);
                 }
            }
         }

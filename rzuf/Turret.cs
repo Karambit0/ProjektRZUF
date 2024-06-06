@@ -14,7 +14,7 @@ namespace Sim
           currentHP = maxHP; 
           damage = 5+_turn*2.0;
 
-          attackRange = 300; //?
+          attackRange = 9999; 
 
           attackDelay = 60;
           xpPerKill = 10+_turn*10;
@@ -24,8 +24,8 @@ namespace Sim
 
           delay = 120;
           realoadDelay= 90;
-          currentAmmo = 10;
-          maxAmmo = 10;
+          currentAmmo = 4;
+          maxAmmo = 4;
 
         }
 
@@ -34,6 +34,7 @@ namespace Sim
 
         private void Reload()
         {
+            SoundLibrary.PlaySound("reload",Controller.sounds);
             currentAmmo=maxAmmo;
             delay+=realoadDelay;
 
@@ -49,6 +50,7 @@ namespace Sim
                 {   
                   if(currentAmmo>0)
                     {
+                      SoundLibrary.PlaySound("bonk",Controller.sounds);
                       Attack(damage,_rzuf);
                       currentAmmo--;
                       delay += attackDelay;

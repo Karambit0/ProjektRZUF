@@ -26,7 +26,7 @@ namespace Sim
 
         public override void Act(Creature _rzuf)
         {   baseSpeed *= 1-(float)currentHP/(float)maxHP+1;
-            attackDelay = (int)(attackDelay* (0.5 * (float)currentHP/(float)maxHP + 0.5));
+            attackDelay = (int)(attackDelay* (0.5 * (float)currentHP/(float)maxHP + 0.5)); //to repair
 
             if(delay!=0) delay--;
             else

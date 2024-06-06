@@ -30,7 +30,7 @@ namespace Sim
             {
                 if (gun.currentAmmo ==0)
                 {
-                    delay = 120;
+                    delay = 90;
                     SoundLibrary.PlaySound("reload",Controller.sounds);
                     gun.Reload();
                 }
