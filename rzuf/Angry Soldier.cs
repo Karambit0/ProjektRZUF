@@ -2,7 +2,8 @@ namespace Sim
 {
     class AngrySoldier : Soldier
     {
-        int currentSpeed;
+        int baseAttackDelay;
+        float givenSpeed;
 
         public AngrySoldier(int _turn, int _width, int _height)
         {
@@ -10,12 +11,10 @@ namespace Sim
           currentHP = maxHP; 
           damage = 5+_turn*2.5;
 
-          baseSpeed = 0.5F;
-          speed.X = baseSpeed;
-          speed.Y = baseSpeed;
+          givenSpeed = 0.5F;
           attackRange = 100;
 
-          attackDelay = 60;
+          baseAttackDelay = 60;
           xpPerKill = 10+_turn*10;
 
           alive = true;
@@ -25,8 +24,8 @@ namespace Sim
         
 
         public override void Act(Creature _rzuf)
-        {   baseSpeed *= 1-(float)currentHP/(float)maxHP+1;
-            attackDelay = (int)(attackDelay* (0.5 * (float)currentHP/(float)maxHP + 0.5)); //to repair
+        {   baseSpeed  = givenSpeed *( 1-(float)currentHP/(float)maxHP+1);
+            attackDelay = (int)(baseAttackDelay* (0.5 * (float)currentHP/(float)maxHP + 0.5)); //to repair
 
             if(delay!=0) delay--;
             else

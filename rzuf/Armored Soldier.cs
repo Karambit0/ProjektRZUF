@@ -14,8 +14,6 @@ namespace Sim
           damage = 5+_turn*2.5;
 
           baseSpeed = 0.5F;
-          speed.X = baseSpeed;
-          speed.Y = baseSpeed;
           attackRange = 100;
 
           attackDelay = 60;
@@ -48,7 +46,7 @@ namespace Sim
                   }
                 else 
                 {
-                    shield = true; //to repair
+                    shield = true;
                     delay += waitTime;
                     moveTimeCounter += moveTime;
                 }
@@ -56,7 +54,7 @@ namespace Sim
             }
         }
 
-      public void TakeDamage(int _damage)
+      public override void TakeDamage(double _damage)
       {     if(!shield)
               currentHP -= _damage;
             if(currentHP<=0)
