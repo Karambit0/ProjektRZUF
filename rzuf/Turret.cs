@@ -22,6 +22,8 @@ namespace Sim
           alive = true;
           SetPosition(_width,_height);
 
+
+          //turet have some delay at the spawn to give Rzuf time to react
           delay = 120;
           realoadDelay= 90;
           currentAmmo = 4;
@@ -37,9 +39,7 @@ namespace Sim
             SoundLibrary.PlaySound("reload",Controller.sounds);
             currentAmmo=maxAmmo;
             delay+=realoadDelay;
-
         }
-
 
         public override void Act(Creature _rzuf)
         {

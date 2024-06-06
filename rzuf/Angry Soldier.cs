@@ -24,7 +24,10 @@ namespace Sim
         
 
         public override void Act(Creature _rzuf)
-        {   baseSpeed  = givenSpeed *( 1-(float)currentHP/(float)maxHP+1);
+        {   
+            //move speed increses as hp goes down up to 200% of base
+            baseSpeed  = givenSpeed *( 1-(float)currentHP/(float)maxHP+1);
+            //attack delay decreses as hp goes down up to 150% of base
             attackDelay = (int)(baseAttackDelay* (0.5 * (float)currentHP/(float)maxHP + 0.5));
 
             if(delay!=0) delay--;
