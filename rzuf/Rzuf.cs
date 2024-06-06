@@ -5,7 +5,7 @@ namespace Sim
 {
     class Rzuf : Creature
     {
-        int xp,xpToLv;
+        int xp,xpToLv,lv;
         public Weapon gun;
 
          public void Heal()
@@ -22,7 +22,10 @@ namespace Sim
                 gun.damage +=5;
                 gun.maxAmmo ++;
 
-                xpToLv += 100;              
+                xpToLv += 100;   
+
+                lv++;
+         
             }
 
 
@@ -30,7 +33,7 @@ namespace Sim
 
         public override void Attack(double _damage, Creature _target)
         {
-           xp = _target.TakeDamage(_damage);
+           xp += _target.TakeDamage(_damage);
 
         }
         public override int Die()
@@ -40,7 +43,7 @@ namespace Sim
             return 0; //to do: game ends
         }
         public void Act(Creature _enemy)
-        {
+        {   //LvUp();
             if(delay!=0) delay--;
             else
             {

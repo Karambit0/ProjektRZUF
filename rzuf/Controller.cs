@@ -136,6 +136,7 @@ namespace Sim
             this.UpdateSounds();
             this.UpdateEnemies();
             this.UpdatePlayer();
+
         }
         //game rendering
         public void SetBackground(string _type) 
