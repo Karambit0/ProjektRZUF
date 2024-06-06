@@ -23,6 +23,9 @@ namespace Sim
           SetPosition(_width,_height);
 
           shield = false;
+
+          //move time indicates how long armored soldeir moves before it stops
+          //similarry wait time says how long it stays in place
           waitTime = 80;
           moveTime = 50;
           moveTimeCounter = moveTime;
@@ -49,11 +52,10 @@ namespace Sim
                     shield = true;
                     delay += waitTime;
                     moveTimeCounter += moveTime;
-                }
-                
+                }  
             }
         }
-
+      // soldeir have shield up when it moves and as long as it is up it cant take any damdage
       public override int TakeDamage(double _damage)
       {     if(!shield)
               currentHP -= _damage;
