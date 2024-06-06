@@ -19,6 +19,8 @@ namespace Sim
 
         public override int Die()
         {
+            alive = false;
+            TextureLibrary.SetSprite("rzuf dead",this);
             return 0; //to do: game ends
         }
         public void Act(Creature _enemy)

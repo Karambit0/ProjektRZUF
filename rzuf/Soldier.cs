@@ -67,6 +67,7 @@ namespace Sim
               if(Utility.Distance(position,_rzuf.position) <= attackRange)
                 {
                   Attack(damage,_rzuf);
+                  SoundLibrary.PlaySound("bonk",Controller.sounds);
                   delay += attackDelay;
 
                   //not neccecery as program shoudn't be able to rach Move()

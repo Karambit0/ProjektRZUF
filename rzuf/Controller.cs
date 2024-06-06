@@ -99,14 +99,14 @@ namespace Sim
                 closestEnemy = soldier;
                 }
             }
-            if(enemyCount!=0) //so rzuf cannot shot when there's no enemies on screen
+            if(enemyCount!=0 &&rzuf.alive == true) //so rzuf cannot shot when there's no enemies on screen
             rzuf.Act(closestEnemy); //shoots closes enemy
         }
         void UpdateEnemies()
         {
                 //moving enemies
             foreach(Soldier soldier in enemies.ToList()) 
-            {   if(soldier.alive == true)
+            {   if(soldier.alive == true && rzuf.alive == true) //hmmm not the intended way, but when rzuf is dead all the enemies are cleared
                     soldier.Act(rzuf);
                 else    //deletes enemy from list when they're dead
                 {
