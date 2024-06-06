@@ -50,7 +50,7 @@ namespace Sim
             TextureLibrary.SetSprite("rzuf", rzuf);
             rzuf.sprite.Position = rzuf.position;
         }
-        public void SpawnEnemies(int number, int chanceSoldier, int chanceTurret, int chanceArmoredSoldier, int chanceAngrySoldier)
+        public async void SpawnEnemies(int number, int chanceSoldier, int chanceTurret, int chanceArmoredSoldier, int chanceAngrySoldier)
         {
             /*
             randomly fills enemies list with random enemy types and sets their sprites
@@ -60,34 +60,41 @@ namespace Sim
             forth parameter: chance for spawning Armored Soldier (in %)
             fifth parameter: chance for spawning Angry Soldier (in %)
             */
-            int losulosu;
-            this.enemyCount = number; 
+            int losulosu; //to investigate: correct number of enemies are spawning, or not? 
             for(int i = 0; i<number; i++)
-            {
+            {   
                 losulosu = losu.Next(0,100); //gets random number from 0 to 100
-                if(losulosu>0&&losulosu<chanceSoldier)
+                if(losulosu>=0&&losulosu<chanceSoldier)
                 {
                     Soldier soldier = new Soldier(turn, width, height);
                     TextureLibrary.SetSprite("soldier",soldier);
                     enemies.Add(soldier);
+                    enemyCount++;
+                   //await Task.Delay(500);
                 }
                 if(losulosu>chanceSoldier+1&&losulosu<chanceSoldier+chanceTurret)
                 {
                     Soldier soldier = new Turret(turn, width, height);
                     TextureLibrary.SetSprite("turret",soldier);
                     enemies.Add(soldier);
+                    enemyCount++;
+                    //await Task.Delay(500);
                 }
                 if(losulosu>chanceSoldier+chanceTurret+1&&losulosu<chanceSoldier+chanceTurret+chanceArmoredSoldier)
                 {
                     Soldier soldier = new ArmoredSoldier(turn, width, height);
                     TextureLibrary.SetSprite("armored soldier",soldier);
                     enemies.Add(soldier);
+                    enemyCount++;
+                    //await Task.Delay(500);
                 }
-                if(losulosu>chanceSoldier+chanceTurret+chanceArmoredSoldier+1&&losulosu<101)
+                if(losulosu>chanceSoldier+chanceTurret+chanceArmoredSoldier+1&&losulosu<=100)
                 {
                     Soldier soldier = new AngrySoldier(turn, width, height);
                     TextureLibrary.SetSprite("angry soldier",soldier);
                     enemies.Add(soldier);
+                    enemyCount++;
+                    //await Task.Delay(500);
                 }
            }
         }
