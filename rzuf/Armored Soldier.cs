@@ -54,11 +54,12 @@ namespace Sim
             }
         }
 
-      public override void TakeDamage(double _damage)
+      public override int TakeDamage(double _damage)
       {     if(!shield)
               currentHP -= _damage;
             if(currentHP<=0)
-              Die();
+            return Die();
+            else return 0;
       }   
      
     }
