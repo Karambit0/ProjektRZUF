@@ -96,6 +96,10 @@ namespace Sim
                     enemyCount++;
                     //await Task.Delay(500);
                 }
+                // shoud we move them outside if? but if chances doesn't add to 100% then we will get null enemy 
+                //   enemies.Add(soldier);
+                //   enemyCount++;
+                //   await Task.Delay(500);
            }
         }
         //game logic
