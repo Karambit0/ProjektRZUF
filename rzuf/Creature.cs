@@ -13,11 +13,11 @@ namespace Sim
         public Sprite sprite = new Sprite(); //sprite of the creature
         Texture soldierHurtSprite = new Texture("resources/soldierHurt.png");
 
-        public void Attack(double _damage, Creature _target)
+        public virtual void Attack(double _damage, Creature _target)
         {
             _target.TakeDamage(_damage);
         }
-        public  virtual void TakeDamage(double _damage)
+        public virtual int TakeDamage(double _damage)
         {   
             if(this.GetType()== typeof(Soldier))
                 {
@@ -26,7 +26,8 @@ namespace Sim
                 }
             currentHP -= _damage;
             if(currentHP<=0)
-            Die();
+            return Die();
+            else return 0;
         }
 
         public virtual int Die()
