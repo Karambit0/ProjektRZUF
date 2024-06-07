@@ -8,6 +8,7 @@ namespace Sim
         static SoundBuffer gunSound = new SoundBuffer("resources/gun.wav");
         static SoundBuffer reloadSound = new SoundBuffer("resources/reload.wav");
         static SoundBuffer deathSound = new SoundBuffer("resources/oof.wav");
+        static SoundBuffer rzufDeathSound = new SoundBuffer("resources/rzoof.wav");
         static SoundBuffer bonkSound = new SoundBuffer("resources/bonk.wav");
         
 
@@ -22,6 +23,8 @@ namespace Sim
                {sound.SoundBuffer =deathSound;} 
             if(_soundName == "bonk")
                {sound.SoundBuffer =bonkSound;} 
+            if(_soundName == "rzuf oof")
+               {sound.SoundBuffer =rzufDeathSound;} 
             sounds.Add(sound);
             sound.Play();   
         }

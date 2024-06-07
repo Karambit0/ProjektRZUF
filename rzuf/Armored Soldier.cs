@@ -9,7 +9,7 @@ namespace Sim
       
        public ArmoredSoldier(int _turn, int _width, int _height)
         {
-          maxHP = 20+_turn*10;
+          maxHP = 30+_turn*10; //to do: better equation to calculate hp, in turn 10 difference between each class will be marginal
           currentHP = maxHP; 
           damage = 5+_turn*2.5;
 
@@ -26,8 +26,8 @@ namespace Sim
 
           //move time indicates how long armored soldeir moves before it stops
           //similarry wait time says how long it stays in place
-          waitTime = 80;
-          moveTime = 50;
+          waitTime = 60;
+          moveTime = 240;
           moveTimeCounter = moveTime;
         }
 
@@ -39,6 +39,7 @@ namespace Sim
               if(Utility.Distance(position,_rzuf.position) <= attackRange)
                 {
                   Attack(damage,_rzuf);
+                  SoundLibrary.PlaySound("bonk",Controller.sounds);
                   delay += attackDelay;
                 }
               else

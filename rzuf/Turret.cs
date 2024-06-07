@@ -10,7 +10,7 @@ namespace Sim
 
         public Turret(int _turn, int _width, int _height)
         {
-          maxHP = 20+_turn*10;
+          maxHP = 10+_turn*10; //to do: better equation to calculate hp, in turn 10 difference between each class will be marginal
           currentHP = maxHP; 
           damage = 5+_turn*2.0;
 
@@ -36,7 +36,7 @@ namespace Sim
 
         private void Reload()
         {
-            SoundLibrary.PlaySound("reload",Controller.sounds);
+            SoundLibrary.PlaySound("reload",Controller.sounds); //to do: different reload for turret
             currentAmmo=maxAmmo;
             delay+=realoadDelay;
         }
@@ -50,7 +50,7 @@ namespace Sim
                 {   
                   if(currentAmmo>0)
                     {
-                      SoundLibrary.PlaySound("bonk",Controller.sounds);
+                      SoundLibrary.PlaySound("bonk",Controller.sounds); //to do: different gun sound for turret
                       Attack(damage,_rzuf);
                       currentAmmo--;
                       delay += attackDelay;

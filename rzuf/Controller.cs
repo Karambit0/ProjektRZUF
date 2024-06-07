@@ -123,7 +123,6 @@ namespace Sim
                 {
                     enemies.Remove(soldier);
                     enemyCount--;
-                    SoundLibrary.PlaySound("oof",sounds);
                     closestEnemyDistance = 9999;
                 }
             }

@@ -40,7 +40,7 @@ namespace Sim
 
         public Soldier(int _turn, int _width, int _height)
         {
-          maxHP = 20+_turn*10;
+          maxHP = 20+_turn*10; //to do: better equation to calculate hp, in turn 10 difference between each class will be marginal
           currentHP = maxHP; 
           damage = 5+_turn*2.5;
 
@@ -93,6 +93,7 @@ namespace Sim
         public override int Die()
         {
           alive = false;
+          SoundLibrary.PlaySound("oof",Controller.sounds);
           return xpPerKill;
         }
 

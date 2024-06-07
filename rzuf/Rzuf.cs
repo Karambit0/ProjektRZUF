@@ -21,6 +21,7 @@ namespace Sim
         {
             alive = false;
             TextureLibrary.SetSprite("rzuf dead",this);
+            SoundLibrary.PlaySound("rzuf oof",Controller.sounds);
             return 0; //to do: game ends
         }
         public void Act(Creature _enemy)
