@@ -76,7 +76,7 @@ namespace Sim
                         TextureLibrary.SetSprite("soldier",soldier);
                         enemies.Add(soldier);
                         enemyCount++;
-                        await Task.Delay(500);
+                        await Task.Delay(500); //maybe pass time between enemies spawning as argument?
                     }
                     if(losulosu>=chanceSoldier&&losulosu<chanceSoldier+chanceTurret)
                     {  //spawns turret and waits 0.5sec

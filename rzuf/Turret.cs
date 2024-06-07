@@ -7,7 +7,7 @@ namespace Sim
     class Turret : Soldier
     {   
 
-
+              Random losu = new Random(); //random bullshit generator
         public Turret(int _turn, int _width, int _height)
         {
           maxHP = 10+_turn*10; //to do: better equation to calculate hp, in turn 10 difference between each class will be marginal
@@ -59,22 +59,27 @@ namespace Sim
                 }
             }
         }
-
-
-
-
-        
-      /*  public void SetPosition() 
+        public override int Die()
         {
-          losulosu = losu.Next(0,2); //it gives equal chance to spawn on left or on right
+          alive = false;
+          SoundLibrary.PlaySound("turret oof",Controller.sounds);
+          return xpPerKill;
+        }
+
+        public void SetPosition(int width, int height) //randomizes enemy position
+        { 
+          //enemies can only spawn 300px from left or right to give rzuf some time
+            int losulosu;
+            losulosu = losu.Next(0,2); //it gives equal chance to spawn on left or on right
                     if(losulosu == 0)
-                        soldier.position.X = losu.Next(0, width/3);
+                        this.position.X = losu.Next(0, width/3);
                     else
-                        soldier.position.X = losu.Next(width*2/3,width-100);
-                soldier.position.Y = losu.Next(0,height-100);
-        }*/
+                        this.position.X = losu.Next(width*2/3,width-100);
+                this.position.Y = losu.Next(0,height-100);
+                sprite.Position = position;
+        }
        
-     
+    
     }
 
 
