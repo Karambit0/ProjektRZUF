@@ -16,9 +16,12 @@ namespace Sim
 
         //game variables
         int width,height; //width and height of window for easier use
-        int enemyCount; //how many enemies in phase was generated
+        public int enemyCount = 0; //how many enemies are on screen
         float closestEnemyDistance = 9999; 
-        int turn = 1; //number of turns to calculate enemies' stats
+        int turn = 0; //number of turns to calculate enemies' stats
+        bool turnEnd = false;
+
+        bool spawningEnemies = false;
 
         //game objects
 
@@ -51,7 +54,7 @@ namespace Sim
             rzuf.sprite.Position = rzuf.position;
         }
         public async void SpawnEnemies(int number, int chanceSoldier, int chanceTurret, int chanceArmoredSoldier, int chanceAngrySoldier)
-        {
+        {   
             /*
             randomly fills enemies list with random enemy types and sets their sprites
             first parameter: number of enemies
@@ -60,44 +63,58 @@ namespace Sim
             forth parameter: chance for spawning Armored Soldier (in %)
             fifth parameter: chance for spawning Angry Soldier (in %)
             */
-            int losulosu; //to investigate: correct number of enemies are spawning, or not? 
-            for(int i = 0; i<number; i++)
-            {   
-                losulosu = losu.Next(0,100); //gets random number from 0 to 99
-                if(losulosu>=0&&losulosu<chanceSoldier)
-                {
-                    Soldier soldier = new Soldier(turn, width, height);
-                    TextureLibrary.SetSprite("soldier",soldier);
-                    enemies.Add(soldier);
-                    enemyCount++;
-                    await Task.Delay(500);
-                }
-                if(losulosu>=chanceSoldier&&losulosu<chanceSoldier+chanceTurret)
-                {
-                    Soldier soldier = new Turret(turn, width, height);
-                    TextureLibrary.SetSprite("turret",soldier);
-                    enemies.Add(soldier);
-                    enemyCount++;
-                    await Task.Delay(500);
-                }
-                if(losulosu>=chanceSoldier+chanceTurret&&losulosu<chanceSoldier+chanceTurret+chanceArmoredSoldier)
-                {
-                    Soldier soldier = new ArmoredSoldier(turn, width, height);
-                    TextureLibrary.SetSprite("armored soldier",soldier);
-                    enemies.Add(soldier);
-                    enemyCount++;
-                    await Task.Delay(500);
-                }
-                if(losulosu>=chanceSoldier+chanceTurret+chanceArmoredSoldier&&losulosu<=100)
-                {
-                    Soldier soldier = new AngrySoldier(turn, width, height);
-                    TextureLibrary.SetSprite("angry soldier",soldier);
-                    enemies.Add(soldier);
-                    enemyCount++;
-                    await Task.Delay(500);  
+            spawningEnemies = true; //without this when first soldier is spawned and killed before spawning next, the next turn was starting
+            if(turnEnd==true)
+            {
+                int losulosu; 
+                for(int i = 0; i<number; i++)
+                {   
+                    losulosu = losu.Next(0,100); //gets random number from 0 to 99
+                    if(losulosu>=0&&losulosu<chanceSoldier) 
+                    { //spawns basic soldier and waits 0.5sec
+                        Soldier soldier = new Soldier(turn, width, height);
+                        TextureLibrary.SetSprite("soldier",soldier);
+                        enemies.Add(soldier);
+                        enemyCount++;
+                        await Task.Delay(500);
+                    }
+                    if(losulosu>=chanceSoldier&&losulosu<chanceSoldier+chanceTurret)
+                    {  //spawns turret and waits 0.5sec
+                        Soldier soldier = new Turret(turn, width, height);
+                        TextureLibrary.SetSprite("turret",soldier);
+                        enemies.Add(soldier);
+                        enemyCount++;
+                        await Task.Delay(500);
+                    }
+                    if(losulosu>=chanceSoldier+chanceTurret&&losulosu<chanceSoldier+chanceTurret+chanceArmoredSoldier)
+                    {  //spawns armored soldier and waits 0.5sec
+                        Soldier soldier = new ArmoredSoldier(turn, width, height);
+                        TextureLibrary.SetSprite("armored soldier",soldier);
+                        enemies.Add(soldier);
+                        enemyCount++;
+                        await Task.Delay(500);
+                    }
+                    if(losulosu>=chanceSoldier+chanceTurret+chanceArmoredSoldier&&losulosu<=100)
+                    {  //spawns angry soldier and waits 0.5sec
+                        Soldier soldier = new AngrySoldier(turn, width, height);
+                        TextureLibrary.SetSprite("angry soldier",soldier);
+                        enemies.Add(soldier);
+                        enemyCount++;
+                        await Task.Delay(500);  
 
+                    }
                 }
-           }
+            }
+            spawningEnemies = false;
+        }
+        public void StartTurn() //starts next turn
+        {
+            if(turnEnd == true && rzuf.alive == true) 
+            {
+                turn++;
+                SpawnEnemies(turn*5,25,25,25,25); //number of enemies, chance for soldier, turret, armored, angry
+                turnEnd = false;
+            }
         }
         //game logic
         void UpdatePlayer()
@@ -111,7 +128,9 @@ namespace Sim
                 }
             }
             if(enemyCount!=0 &&rzuf.alive == true) //so rzuf cannot shot when there's no enemies on screen
-            rzuf.Act(closestEnemy); //shoots closes enemy
+            rzuf.Act(closestEnemy); //shoots closest enemy
+            if(enemyCount ==0 && spawningEnemies == false)
+                turnEnd = true; //rzuf is always on screen, so he can control if all enemies are dead and next turn can be started
         }
         void UpdateEnemies()
         {
