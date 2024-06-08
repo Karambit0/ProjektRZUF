@@ -53,9 +53,13 @@ namespace Sim
         {   
             //creates rzuf object
             rzuf = new Rzuf(_maxHP, _damage, _attackDelay, _maxAmmo);
-            rzuf.position = new SFML.System.Vector2f(this.videoMode.Width/2-50,this.videoMode.Height/2-50);
+            rzuf.position = new Vector2f(this.videoMode.Width/2-50,this.videoMode.Height/2-50);
             TextureLibrary.SetSprite("rzuf", rzuf);
             rzuf.sprite.Position = rzuf.position;
+            rzuf.gun.position = new Vector2f(this.videoMode.Width/2,this.videoMode.Height/2+25);
+            TextureLibrary.SetTexture("gun", rzuf.gun.sprite);
+            rzuf.gun.sprite.Position = rzuf.gun.position;
+            rzuf.gun.sprite.Origin = new Vector2f(25f,25f);
         }
         public void CreateGui()
         {
@@ -142,7 +146,10 @@ namespace Sim
                 }
             }
             if(enemyCount!=0 &&rzuf.alive == true) //so rzuf cannot shot when there's no enemies on screen
-            rzuf.Act(closestEnemy); //shoots closest enemy
+            {rzuf.Act(closestEnemy); //shoots closest enemy
+            float degrees = Utility.GetAngle(closestEnemy.position,rzuf.gun.position);
+            rzuf.gun.sprite.Rotation = degrees;
+            }
             if(enemyCount ==0 && spawningEnemies == false)
                 turnEnd = true; //rzuf is always on screen, so he can control if all enemies are dead and next turn can be started
         }
@@ -221,10 +228,11 @@ namespace Sim
         void RenderPlayer()  //draws player sprite
         {
             this.window.Draw(rzuf.sprite);
+            this.window.Draw(rzuf.gun.sprite);
         }
         void RenderEnemies() //draws enemies sprites
         {  
-            foreach(Creature soldier in enemies)
+            foreach(Creature soldier in enemies.ToList())
            {
             this.window.Draw(soldier.sprite);
            }

@@ -8,6 +8,7 @@ namespace Sim
         //sprites
         static Texture rzufSprite = new Texture("resources/sprites/rzuf.png");
         static Texture rzufDeadSprite = new Texture("resources/sprites/rzufDead.png");
+        static Texture gunSprite = new Texture("resources/sprites/gun.png"); // https://tamamangrosse.itch.io/pistol-sprite
         static Texture soldierSprite = new Texture("resources/sprites/soldier.png");
         static Texture turretSprite = new Texture("resources/sprites/turret.png");
         static Texture armoredSoldierSprite = new Texture("resources/sprites/armoredsoldier.png");
@@ -24,6 +25,8 @@ namespace Sim
         _sprite.Texture = space;
         if(_spriteName=="battlefield")
         _sprite.Texture = battlefield;
+        if(_spriteName=="gun")
+        _sprite.Texture = gunSprite;
     }
     public static void SetSprite(string _spriteName, Creature _creature) //only for Creatures!!!
         {

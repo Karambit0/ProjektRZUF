@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using SFML.Graphics;
 using SFML.Audio;
+using SFML.System;
 using System.Runtime.CompilerServices;
 namespace Sim
 {
@@ -85,6 +86,8 @@ namespace Sim
     class Weapon
     {
         public int damage, attackDelay;
+        public Sprite sprite = new Sprite(); //sprite of the creature
+        public Vector2f position; //contains position.X and position.Y, easier to move objects
         public int currentAmmo,maxAmmo;
         public bool isReloading;
         public List<Sound> sounds = new List<Sound>();
