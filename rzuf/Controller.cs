@@ -59,10 +59,13 @@ namespace Sim
         }
         public void CreateGui()
         {
-            TextLibrary.WriteText("Tura: "+turn,width/2-200,20,gui); //turn
-            TextLibrary.WriteText("Ilość wrogów w fali: "+enemiesToKill,width/2-50,20,gui); //number of enemies to end turn
-            TextLibrary.WriteText("HP Rzuf: "+rzuf.currentHP+"/"+rzuf.maxHP,width/2-250,60,gui); //current hp of rzuf
-            TextLibrary.WriteText("Amunicja Rzuf: "+rzuf.gun.currentAmmo+"/"+rzuf.gun.maxAmmo,width/2,60,gui); //current ammo of rzuf
+            TextLibrary.WriteText("Tura: "+turn,width/2-200,10,gui); //turn
+            TextLibrary.WriteText("Ilość wrogów w fali: "+enemiesToKill,width/2-50,10,gui); //number of enemies to end turn
+            TextLibrary.WriteText("HP Rzuf: "+rzuf.currentHP+"/"+rzuf.maxHP,width/2-250,50,gui); //current hp of rzuf
+            TextLibrary.WriteText("Amunicja Rzuf: "+rzuf.gun.currentAmmo+"/"+rzuf.gun.maxAmmo,width/2,50,gui); //current ammo of rzuf
+            TextLibrary.WriteText("Poziom Rzuf: "+rzuf.lv,width/2-250,90,gui); //current rzuf level
+            TextLibrary.WriteText("DMG Rzuf: "+rzuf.gun.damage,width/2,90,gui); //current damage of rzuf
+
         }
         public async void SpawnEnemies(int number, int chanceSoldier, int chanceTurret, int chanceArmoredSoldier, int chanceAngrySoldier)
         {   
@@ -174,20 +177,15 @@ namespace Sim
             foreach(Text line in gui)
             {
                 if(line.DisplayedString.Contains("Tura")==true)
-                {
                     line.DisplayedString = "Tura: "+turn;
-                }
                 if(line.DisplayedString.Contains("wrogów")==true)
-                {
                     line.DisplayedString = "Ilość wrogów w fali: "+enemiesToKill;
-                }
                 if(line.DisplayedString.Contains("HP")==true)
                 { 
                     if(rzuf.currentHP>=0)
                     line.DisplayedString = "HP Rzuf: "+rzuf.currentHP+"/"+rzuf.maxHP;
                     else
                     line.DisplayedString = "Rzuf is dead :( ";
-
                 }
                 if(line.DisplayedString.Contains("Amunicja")==true)
                 {   
@@ -196,6 +194,11 @@ namespace Sim
                     else
                     line.DisplayedString = "Amunicja Rzuf: przeładowuje";
                 }
+                if(line.DisplayedString.Contains("Poziom")==true)
+                    line.DisplayedString = "Poziom rzuf: "+rzuf.lv;
+                if(line.DisplayedString.Contains("DMG")==true)
+                    line.DisplayedString = "DMG rzuf: "+rzuf.gun.damage;
+
             }
         }
         public void Update() //updates logic of game every frame

@@ -5,12 +5,12 @@ namespace Sim
 
     public class SoundLibrary
     {
-        static SoundBuffer gunSound = new SoundBuffer("resources/gun.wav");
-        static SoundBuffer reloadSound = new SoundBuffer("resources/reload.wav");
-        static SoundBuffer deathSound = new SoundBuffer("resources/oof.wav");
-        static SoundBuffer rzufDeathSound = new SoundBuffer("resources/rzoof.wav");
-        static SoundBuffer turretDeathSound = new SoundBuffer("resources/turretoof.wav");
-        static SoundBuffer bonkSound = new SoundBuffer("resources/bonk.wav");
+        static SoundBuffer gunSound = new SoundBuffer("resources/sounds/gun.wav");
+        static SoundBuffer reloadSound = new SoundBuffer("resources/sounds/reload.wav");
+        static SoundBuffer deathSound = new SoundBuffer("resources/sounds/oof.wav");
+        static SoundBuffer rzufDeathSound = new SoundBuffer("resources/sounds/rzoof.wav");
+        static SoundBuffer turretDeathSound = new SoundBuffer("resources/sounds/turretoof.wav");
+        static SoundBuffer bonkSound = new SoundBuffer("resources/sounds/bonk.wav");
         
 
         

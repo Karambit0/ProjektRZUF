@@ -5,15 +5,18 @@ namespace Sim
 
     public class TextureLibrary
     {
-        static Texture rzufSprite = new Texture("resources/rzuf.png");
-        static Texture rzufDeadSprite = new Texture("resources/rzufDead.png");
-        static Texture soldierSprite = new Texture("resources/soldier.png");
-        static Texture turretSprite = new Texture("resources/turret.png");
-        static Texture armoredSoldierSprite = new Texture("resources/armoredsoldier.png");
-        static Texture angrySoldierSprite = new Texture("resources/angrysoldier.png");
-        static Texture hurtSprite = new Texture("resources/soldierHurt.png");
-        static Texture space = new Texture("resources/space.jpg"); //Image by Gerd Altmann from Pixabay
-        static Texture battlefield = new Texture("resources/battlefield.jpg"); //https://www.artstation.com/artwork/Oyolbv
+        //sprites
+        static Texture rzufSprite = new Texture("resources/sprites/rzuf.png");
+        static Texture rzufDeadSprite = new Texture("resources/sprites/rzufDead.png");
+        static Texture soldierSprite = new Texture("resources/sprites/soldier.png");
+        static Texture turretSprite = new Texture("resources/sprites/turret.png");
+        static Texture armoredSoldierSprite = new Texture("resources/sprites/armoredsoldier.png");
+        static Texture angrySoldierSprite = new Texture("resources/sprites/angrysoldier.png");
+        static Texture hurtSprite = new Texture("resources/sprites/soldierHurt.png");
+
+        //backgrounds
+        static Texture space = new Texture("resources/backgrounds/space.jpg"); //Image by Gerd Altmann from Pixabay
+        static Texture battlefield = new Texture("resources/backgrounds/battlefield.jpg"); //https://www.artstation.com/artwork/Oyolbv
         
     public static void SetTexture(string _spriteName, Sprite _sprite) //only for sprites!!!
     {

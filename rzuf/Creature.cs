@@ -11,7 +11,7 @@ namespace Sim
         public Vector2f position; //contains position.X and position.Y, easier to move objects
 
         public Sprite sprite = new Sprite(); //sprite of the creature
-        Texture soldierHurtSprite = new Texture("resources/soldierHurt.png");
+        Texture soldierHurtSprite = new Texture("resources/sprites/soldierHurt.png");
 
         public virtual void Attack(double _damage, Creature _target)
         {

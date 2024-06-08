@@ -6,7 +6,8 @@ namespace Sim
 {
     class Rzuf : Creature
     {
-        int xp,xpToLv,lv;
+        int xp,xpToLv;
+        public int lv;
         public Weapon gun;
 
         //heals rzuf by portion of thier max hp 
