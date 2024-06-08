@@ -11,8 +11,8 @@ namespace Sim
             //don't touch, it allows window to be closed
             controller.window.Closed += controller.HandleClose;
             //spawn creatures
-            controller.SetBackground("battlefield"); //space or battlefield
-            controller.SpawnPlayer(100,20,30,10); //maxHP, damage, attackDelay, maxAmmo
+            controller.SetBackground("space"); //space or battlefield
+            controller.SpawnPlayer(50,20,30,10,0.5F); //maxHP, damage, attackDelay, maxAmmo, how much hp heal per turn
             controller.CreateGui();
 
             //game loop

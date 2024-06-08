@@ -49,10 +49,10 @@ namespace Sim
                 
             }
         //creating objects
-        public void SpawnPlayer(int _maxHP, int _damage, int _attackDelay, int _maxAmmo) //spawns rzuf object
+        public void SpawnPlayer(int _maxHP, int _damage, int _attackDelay, int _maxAmmo, float _heal) //spawns rzuf object
         {   
             //creates rzuf object
-            rzuf = new Rzuf(_maxHP, _damage, _attackDelay, _maxAmmo);
+            rzuf = new Rzuf(_maxHP, _damage, _attackDelay, _maxAmmo, _heal);
             rzuf.position = new Vector2f(this.videoMode.Width/2-50,this.videoMode.Height/2-50);
             TextureLibrary.SetSprite("rzuf", rzuf);
             rzuf.sprite.Position = rzuf.position;
@@ -71,7 +71,7 @@ namespace Sim
             TextLibrary.WriteText("DMG Rzuf: "+rzuf.gun.damage,width/2,90,gui); //current damage of rzuf
 
         }
-        public async void SpawnEnemies(int number, int chanceSoldier, int chanceTurret, int chanceArmoredSoldier, int chanceAngrySoldier)
+        public async void SpawnEnemies(int number, int chanceSoldier, int chanceTurret, int chanceArmoredSoldier, int chanceAngrySoldier, float _xpMultiplayer)
         {   
             /*
             randomly fills enemies list with random enemy types and sets their sprites
@@ -90,25 +90,25 @@ namespace Sim
                     losulosu = losu.Next(0,100); //gets random number from 0 to 99
                     if(losulosu>=0&&losulosu<chanceSoldier) 
                     { //spawns basic soldier and waits 0.5sec
-                        Soldier soldier = new Soldier(turn, width, height);
+                        Soldier soldier = new Soldier(turn, width, height, _xpMultiplayer);
                         TextureLibrary.SetSprite("soldier",soldier);
                         enemies.Add(soldier);
                     }
                     if(losulosu>=chanceSoldier&&losulosu<chanceSoldier+chanceTurret)
                     {  //spawns turret and waits 0.5sec
-                        Soldier soldier = new Turret(turn, width, height);
+                        Soldier soldier = new Turret(turn, width, height, _xpMultiplayer);
                         TextureLibrary.SetSprite("turret",soldier);
                         enemies.Add(soldier);
                     }
                     if(losulosu>=chanceSoldier+chanceTurret&&losulosu<chanceSoldier+chanceTurret+chanceArmoredSoldier)
                     {  //spawns armored soldier and waits 0.5sec
-                        Soldier soldier = new ArmoredSoldier(turn, width, height);
+                        Soldier soldier = new ArmoredSoldier(turn, width, height, _xpMultiplayer);
                         TextureLibrary.SetSprite("armored soldier",soldier);
                         enemies.Add(soldier);
                     }
                     if(losulosu>=chanceSoldier+chanceTurret+chanceArmoredSoldier&&losulosu<=100)
                     {  //spawns angry soldier and waits 0.5sec
-                        Soldier soldier = new AngrySoldier(turn, width, height);
+                        Soldier soldier = new AngrySoldier(turn, width, height, _xpMultiplayer);
                         TextureLibrary.SetSprite("angry soldier",soldier);
                         enemies.Add(soldier);
 
@@ -128,9 +128,9 @@ namespace Sim
             {   
                 turn++;
                 enemiesToKill = turn*5;
-                SpawnEnemies(enemiesToKill,25,25,25,25); //number of enemies, chance for soldier, turret, armored, angry
-                rzuf.Heal(0.5);
+                SpawnEnemies(enemiesToKill,25,25,25,25,1.0F); //number of enemies, chance for soldier, turret, armored, angry
                 rzuf.LvUp();
+                rzuf.Heal(rzuf.heal);
                 turnEnd = false;
             }
         }
@@ -157,7 +157,11 @@ namespace Sim
         {
                 //moving enemies
             foreach(Soldier soldier in enemies.ToList()) 
-            {   if(soldier.alive == true && rzuf.alive == true) //hmmm not the intended way, but when rzuf is dead all the enemies are cleared
+            {   
+                //hp bar is always under an enemy and is as long as its hp
+                soldier.hpBar.Position = new Vector2f(soldier.position.X,soldier.position.Y+110);
+                soldier.hpBar.Size = new Vector2f((float)(soldier.currentHP/soldier.maxHP*100),10);
+                if(soldier.alive == true && rzuf.alive == true) //hmmm not the intended way, but when rzuf is dead all the enemies are cleared
                     soldier.Act(rzuf);
                 else    //deletes enemy from list when they're dead
                 {
@@ -232,9 +236,10 @@ namespace Sim
         }
         void RenderEnemies() //draws enemies sprites
         {  
-            foreach(Creature soldier in enemies.ToList())
+            foreach(Soldier soldier in enemies.ToList())
            {
-            this.window.Draw(soldier.sprite);
+            window.Draw(soldier.sprite);
+            window.Draw(soldier.hpBar);
            }
         }
         void RenderGui() //draws enemies sprites

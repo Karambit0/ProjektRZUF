@@ -9,7 +9,7 @@ namespace Sim
         public float baseSpeed, distance; 
         protected Vector2f speed; //sped
         Random losu = new Random(); //random bullshit generator
-
+        public RectangleShape hpBar = new RectangleShape();
         protected int attackDelay;
         protected int attackRange;
          protected int xpPerKill;
@@ -36,22 +36,29 @@ namespace Sim
                 position.Y = losu.Next(0,height-100);   
                 sprite.Position = position;
         }
+        public void CreateHpBar() //creates hp bar under enemy's feet
+        {
+          hpBar.Position = new Vector2f(position.X,position.Y+110);
+          hpBar.Size = new Vector2f(100, 10); 
+          hpBar.FillColor = new Color(255,0,0); //rgb
+        }
         
 
-        public Soldier(int _turn, int _width, int _height)
+        public Soldier(int _turn, int _width, int _height, float _xpMultiplayer)
         {
-          maxHP = 20+_turn*10; //to do: better equation to calculate hp, in turn 10 difference between each class will be marginal
+          maxHP = _turn*10; //to do: better equation to calculate hp, in turn 10 difference between each class will be marginal
           currentHP = maxHP; 
-          damage = 5+_turn*2.5;
+          damage = 5+_turn*2.0;
 
           baseSpeed = 0.5F;
           attackRange = 100;
 
           attackDelay = 60;
-          xpPerKill = 10+_turn*10;
+          xpPerKill = (int)(_turn*6*_xpMultiplayer);
 
           alive = true;
           SetPosition(_width,_height);
+          CreateHpBar();
         }
 
         public Soldier()

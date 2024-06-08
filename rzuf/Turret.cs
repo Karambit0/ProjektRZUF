@@ -8,20 +8,20 @@ namespace Sim
     {   
 
               Random losu = new Random(); //random bullshit generator
-        public Turret(int _turn, int _width, int _height)
+        public Turret(int _turn, int _width, int _height, float _xpMultiplayer)
         {
-          maxHP = 10+_turn*10; //to do: better equation to calculate hp, in turn 10 difference between each class will be marginal
+          maxHP = _turn*5; //to do: better equation to calculate hp, in turn 10 difference between each class will be marginal
           currentHP = maxHP; 
-          damage = 5+_turn*2.0;
+          damage = 2+_turn*2.0;
 
           attackRange = 9999; 
 
           attackDelay = 60;
-          xpPerKill = 10+_turn*10;
+          xpPerKill = (int)(_turn*8*_xpMultiplayer);
 
           alive = true;
           SetPosition(_width,_height);
-
+          CreateHpBar();
 
           //turet have some delay at the spawn to give Rzuf time to react
           delay = 120;

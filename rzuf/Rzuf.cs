@@ -8,6 +8,8 @@ namespace Sim
     class Rzuf : Creature
     {
         int xp,xpToLv;
+
+        public float baseHp, heal;
         public int lv;
         public Weapon gun;
 
@@ -24,16 +26,14 @@ namespace Sim
         {
             while(xp>=xpToLv)
             {        
-                maxHP += 5;
-                currentHP +=5;
+                lv++;
+                maxHP =baseHp*lv;
 
                 gun.damage +=5;
-                gun.maxAmmo ++;
+                gun.maxAmmo = 10+(int)Math.Floor(lv*0.5);
 
                 xp -= xpToLv;
                 xpToLv += 100;   
-                
-                lv++;
             }
 
         }
@@ -72,13 +72,16 @@ namespace Sim
                 }   
             }
         }
-        public Rzuf (int _maxHP, int _damage, int _attackDelay, int _maxAmmo)
+        public Rzuf (int _maxHP, int _damage, int _attackDelay, int _maxAmmo, float _heal)
         {
-            maxHP = _maxHP;
-            currentHP = maxHP;
+            baseHp = _maxHP;
+            currentHP = baseHp;
+            maxHP = baseHp;
+            heal = _heal;
             alive = true;
             gun = new Weapon(_damage, _attackDelay, _maxAmmo);
             xpToLv = 100;
+            lv = 1;
         }
 
     }
@@ -89,7 +92,7 @@ namespace Sim
         public Sprite sprite = new Sprite(); //sprite of the creature
         public Vector2f position; //contains position.X and position.Y, easier to move objects
         public int currentAmmo,maxAmmo;
-        public bool isReloading;
+        public bool isReloading; //it exists so we can dislapy "przeładowuje" instead of 0/number
         public List<Sound> sounds = new List<Sound>();
     
         public void Reload()

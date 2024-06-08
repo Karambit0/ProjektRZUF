@@ -12,6 +12,7 @@ namespace Sim
         static Texture soldierSprite = new Texture("resources/sprites/soldier.png");
         static Texture turretSprite = new Texture("resources/sprites/turret.png");
         static Texture armoredSoldierSprite = new Texture("resources/sprites/armoredsoldier.png");
+        static Texture armoredSoldierShieldSprite = new Texture("resources/sprites/armoredsoldier.png");
         static Texture angrySoldierSprite = new Texture("resources/sprites/angrysoldier.png");
         static Texture hurtSprite = new Texture("resources/sprites/soldierHurt.png");
 
@@ -40,6 +41,8 @@ namespace Sim
             _creature.sprite.Texture = angrySoldierSprite;
              if(_spriteName=="armored soldier")
             _creature.sprite.Texture = armoredSoldierSprite;
+            if(_spriteName=="armored soldier shield")
+            _creature.sprite.Texture = armoredSoldierShieldSprite;
             if(_spriteName=="soldier hurt")
             _creature.sprite.Texture = hurtSprite;
             if(_spriteName=="rzuf dead")
