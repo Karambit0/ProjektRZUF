@@ -12,6 +12,7 @@ namespace Sim
             controller.window.Closed += controller.HandleClose;
             controller.SetBackground("battlefield"); //space or battlefield
             controller.SpawnPlayer(100,50,30,6); //maxHP, damage, attackDelay, maxAmmo
+            controller.CreateGui();
 
             //game loop
             while (controller.Running())

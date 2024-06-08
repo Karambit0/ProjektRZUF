@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using SFML.Graphics;
 using SFML.Audio;
+using System.Runtime.CompilerServices;
 namespace Sim
 {
     class Rzuf : Creature
@@ -24,16 +25,18 @@ namespace Sim
             SoundLibrary.PlaySound("rzuf oof",Controller.sounds);
             return 0; //to do: game ends
         }
-        public void Act(Creature _enemy)
+        public async void Act(Creature _enemy)
         {
             if(delay!=0) delay--;
             else
             {
                 if (gun.currentAmmo ==0)
-                {
+                {   gun.isReloading = true;
                     delay = 90;
                     SoundLibrary.PlaySound("reload",Controller.sounds);
+                    await Task.Delay(1500);
                     gun.Reload();
+                    gun.isReloading = false;
                 }
                 else
                 {   
@@ -58,7 +61,8 @@ namespace Sim
     {
         public int damage, attackDelay;
         public int currentAmmo,maxAmmo;
-         public List<Sound> sounds = new List<Sound>();
+        public bool isReloading;
+        public List<Sound> sounds = new List<Sound>();
     
         public void Reload()
         {

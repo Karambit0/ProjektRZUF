@@ -17,6 +17,8 @@ namespace Sim
         //game variables
         int width,height; //width and height of window for easier use
         public int enemyCount = 0; //how many enemies are on screen
+
+        public int enemiesToKill;
         float closestEnemyDistance = 9999; 
         int turn = 0; //number of turns to calculate enemies' stats
         bool turnEnd = false;
@@ -33,6 +35,8 @@ namespace Sim
          public Sprite background = new Sprite(); //spaaaaaaaace
 
         static public List<Sound> sounds = new List<Sound>(); //list of current sounds because SFML momento
+
+        static public List<Text> gui = new List<Text>(); //list of strings of gui
 
         //functions
         public bool Running() //checking if window is open
@@ -52,6 +56,13 @@ namespace Sim
             rzuf.position = new SFML.System.Vector2f(this.videoMode.Width/2-50,this.videoMode.Height/2-50);
             TextureLibrary.SetSprite("rzuf", rzuf);
             rzuf.sprite.Position = rzuf.position;
+        }
+        public void CreateGui()
+        {
+            TextLibrary.WriteText("Tura: "+turn,width/2-200,20,gui); //turn
+            TextLibrary.WriteText("Ilość wrogów w fali: "+enemiesToKill,width/2-50,20,gui); //number of enemies to end turn
+            TextLibrary.WriteText("HP Rzuf: "+rzuf.currentHP+"/"+rzuf.maxHP,width/2-250,60,gui); //current hp of rzuf
+            TextLibrary.WriteText("Amunicja Rzuf: "+rzuf.gun.currentAmmo+"/"+rzuf.gun.maxAmmo,width/2,60,gui); //current ammo of rzuf
         }
         public async void SpawnEnemies(int number, int chanceSoldier, int chanceTurret, int chanceArmoredSoldier, int chanceAngrySoldier)
         {   
@@ -75,34 +86,28 @@ namespace Sim
                         Soldier soldier = new Soldier(turn, width, height);
                         TextureLibrary.SetSprite("soldier",soldier);
                         enemies.Add(soldier);
-                        enemyCount++;
-                        await Task.Delay(500); //maybe pass time between enemies spawning as argument?
                     }
                     if(losulosu>=chanceSoldier&&losulosu<chanceSoldier+chanceTurret)
                     {  //spawns turret and waits 0.5sec
                         Soldier soldier = new Turret(turn, width, height);
                         TextureLibrary.SetSprite("turret",soldier);
                         enemies.Add(soldier);
-                        enemyCount++;
-                        await Task.Delay(500);
                     }
                     if(losulosu>=chanceSoldier+chanceTurret&&losulosu<chanceSoldier+chanceTurret+chanceArmoredSoldier)
                     {  //spawns armored soldier and waits 0.5sec
                         Soldier soldier = new ArmoredSoldier(turn, width, height);
                         TextureLibrary.SetSprite("armored soldier",soldier);
                         enemies.Add(soldier);
-                        enemyCount++;
-                        await Task.Delay(500);
                     }
                     if(losulosu>=chanceSoldier+chanceTurret+chanceArmoredSoldier&&losulosu<=100)
                     {  //spawns angry soldier and waits 0.5sec
                         Soldier soldier = new AngrySoldier(turn, width, height);
                         TextureLibrary.SetSprite("angry soldier",soldier);
-                        enemies.Add(soldier);
-                        enemyCount++;
-                        await Task.Delay(500);  
+                        enemies.Add(soldier); 
 
                     }
+                    await Task.Delay(500); //maybe pass time between enemies spawning as argument?
+                    enemyCount++;
                 }
             }
             spawningEnemies = false;
@@ -112,7 +117,8 @@ namespace Sim
             if(turnEnd == true && rzuf.alive == true) 
             {
                 turn++;
-                SpawnEnemies(turn*5,25,25,25,25); //number of enemies, chance for soldier, turret, armored, angry
+                enemiesToKill = turn*5;
+                SpawnEnemies(enemiesToKill,25,25,25,25); //number of enemies, chance for soldier, turret, armored, angry
                 turnEnd = false;
             }
         }
@@ -141,6 +147,7 @@ namespace Sim
                 else    //deletes enemy from list when they're dead
                 {
                     enemies.Remove(soldier);
+                    enemiesToKill--;
                     enemyCount--;
                     closestEnemyDistance = 9999;
                 }
@@ -157,9 +164,39 @@ namespace Sim
                 }
             }
         }
+        void UpdateGui()
+        {
+            foreach(Text line in gui)
+            {
+                if(line.DisplayedString.Contains("Tura")==true)
+                {
+                    line.DisplayedString = "Tura: "+turn;
+                }
+                if(line.DisplayedString.Contains("wrogów")==true)
+                {
+                    line.DisplayedString = "Ilość wrogów w fali: "+enemiesToKill;
+                }
+                if(line.DisplayedString.Contains("HP")==true)
+                { 
+                    if(rzuf.currentHP>=0)
+                    line.DisplayedString = "HP Rzuf: "+rzuf.currentHP+"/"+rzuf.maxHP;
+                    else
+                    line.DisplayedString = "Rzuf is dead :( ";
+
+                }
+                if(line.DisplayedString.Contains("Amunicja")==true)
+                {   
+                    if(rzuf.gun.isReloading==false)
+                    line.DisplayedString = "Amunicja Rzuf: "+rzuf.gun.currentAmmo+"/"+rzuf.gun.maxAmmo;
+                    else
+                    line.DisplayedString = "Amunicja Rzuf: przeładowuje";
+                }
+            }
+        }
         public void Update() //updates logic of game every frame
         {
             this.UpdateSounds();
+            this.UpdateGui();
             this.UpdateEnemies();
             this.UpdatePlayer();
         }
@@ -183,6 +220,13 @@ namespace Sim
             this.window.Draw(soldier.sprite);
            }
         }
+        void RenderGui() //draws enemies sprites
+        {  
+            foreach(Text line in gui)
+           {
+            this.window.Draw(line);
+           }
+        }
         public void Render() // renders the game objects
         {
             /*
@@ -193,6 +237,7 @@ namespace Sim
             this.window.Clear();
 
             this.RenderWorld();
+            this.RenderGui();
             this.RenderEnemies();
             this.RenderPlayer();
 
