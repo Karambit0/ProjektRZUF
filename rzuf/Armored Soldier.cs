@@ -56,14 +56,13 @@ namespace Sim
                 }  
             }
         }
-
-
-      // soldeir have shoeld up when it moves and as long as it is up it cant take any damdage
-      public override void TakeDamage(double _damage)
+      // soldeir have shield up when it moves and as long as it is up it cant take any damdage
+      public override int TakeDamage(double _damage)
       {     if(!shield)
               currentHP -= _damage;
             if(currentHP<=0)
-              Die();
+            return Die();
+            else return 0;
       }   
      
     }

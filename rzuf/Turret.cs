@@ -66,7 +66,7 @@ namespace Sim
           return xpPerKill;
         }
 
-        public void SetPosition(int width, int height) //randomizes enemy position
+        public override void SetPosition(int width, int height) //randomizes enemy position
         { 
           //enemies can only spawn 300px from left or right to give rzuf some time
             int losulosu;

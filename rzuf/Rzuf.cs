@@ -6,18 +6,41 @@ namespace Sim
 {
     class Rzuf : Creature
     {
- 
-        int lv;
+        int xp,xpToLv,lv;
         public Weapon gun;
 
-         public void Heal()
+        //heals rzuf by portion of thier max hp 
+         public void Heal(double _heal)
         {
+            currentHP = currentHP + maxHP * _heal;
+            if(currentHP>maxHP) currentHP=maxHP;
+
         }
 
+        // lv ups rzuf as many times as it can incresing rzuf statistics
         public void LvUp()
         {
+            while(xp>=xpToLv)
+            {        
+                maxHP += 5;
+                currentHP +=5;
+
+                gun.damage +=5;
+                gun.maxAmmo ++;
+
+                xp -= xpToLv;
+                xpToLv += 100;   
+                
+                lv++;
+            }
+
         }
 
+        public override void Attack(double _damage, Creature _target)
+        {
+           xp += _target.TakeDamage(_damage);
+
+        }
         public override int Die()
         {
             alive = false;
@@ -26,7 +49,7 @@ namespace Sim
             return 0; //to do: game ends
         }
         public async void Act(Creature _enemy)
-        {
+        {   //LvUp();
             if(delay!=0) delay--;
             else
             {
@@ -53,6 +76,7 @@ namespace Sim
             currentHP = maxHP;
             alive = true;
             gun = new Weapon(_damage, _attackDelay, _maxAmmo);
+            xpToLv = 100;
         }
 
     }

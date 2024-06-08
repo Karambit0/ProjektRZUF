@@ -103,22 +103,27 @@ namespace Sim
                     {  //spawns angry soldier and waits 0.5sec
                         Soldier soldier = new AngrySoldier(turn, width, height);
                         TextureLibrary.SetSprite("angry soldier",soldier);
-                        enemies.Add(soldier); 
+                        enemies.Add(soldier);
 
                     }
-                    await Task.Delay(500); //maybe pass time between enemies spawning as argument?
+                    else continue;
+
                     enemyCount++;
+                    await Task.Delay(500); //maybe pass time between enemies spawning as argument?
+
                 }
             }
             spawningEnemies = false;
         }
         public void StartTurn() //starts next turn
-        {
+        {   
             if(turnEnd == true && rzuf.alive == true) 
-            {
+            {   
                 turn++;
                 enemiesToKill = turn*5;
                 SpawnEnemies(enemiesToKill,25,25,25,25); //number of enemies, chance for soldier, turret, armored, angry
+                rzuf.Heal(0.5);
+                rzuf.LvUp();
                 turnEnd = false;
             }
         }
@@ -199,6 +204,7 @@ namespace Sim
             this.UpdateGui();
             this.UpdateEnemies();
             this.UpdatePlayer();
+
         }
         //game rendering
         public void SetBackground(string _type) 
