@@ -8,13 +8,18 @@ namespace Sim
         int xp,xpToLv,lv;
         public Weapon gun;
 
-         public void Heal()
+        //heals rzuf by portion of thier max hp 
+         public void Heal(double _heal)
         {
+            currentHP = currentHP + maxHP * _heal;
+            if(currentHP>maxHP) currentHP=maxHP;
+
         }
 
+        // lv ups rzuf as many times as it can incresing rzuf statistics
         public void LvUp()
         {
-            if(xp>=xpToLv)
+            while(xp>=xpToLv)
             {        
                 maxHP += 5;
                 currentHP +=5;
@@ -22,12 +27,11 @@ namespace Sim
                 gun.damage +=5;
                 gun.maxAmmo ++;
 
+                xp -= xpToLv;
                 xpToLv += 100;   
-
+                
                 lv++;
-         
             }
-
 
         }
 

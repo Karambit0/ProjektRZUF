@@ -75,43 +75,44 @@ namespace Sim
                         Soldier soldier = new Soldier(turn, width, height);
                         TextureLibrary.SetSprite("soldier",soldier);
                         enemies.Add(soldier);
-                        enemyCount++;
-                        await Task.Delay(500); //maybe pass time between enemies spawning as argument?
                     }
                     if(losulosu>=chanceSoldier&&losulosu<chanceSoldier+chanceTurret)
                     {  //spawns turret and waits 0.5sec
                         Soldier soldier = new Turret(turn, width, height);
                         TextureLibrary.SetSprite("turret",soldier);
                         enemies.Add(soldier);
-                        enemyCount++;
-                        await Task.Delay(500);
                     }
                     if(losulosu>=chanceSoldier+chanceTurret&&losulosu<chanceSoldier+chanceTurret+chanceArmoredSoldier)
                     {  //spawns armored soldier and waits 0.5sec
                         Soldier soldier = new ArmoredSoldier(turn, width, height);
                         TextureLibrary.SetSprite("armored soldier",soldier);
                         enemies.Add(soldier);
-                        enemyCount++;
-                        await Task.Delay(500);
                     }
                     if(losulosu>=chanceSoldier+chanceTurret+chanceArmoredSoldier&&losulosu<=100)
                     {  //spawns angry soldier and waits 0.5sec
                         Soldier soldier = new AngrySoldier(turn, width, height);
                         TextureLibrary.SetSprite("angry soldier",soldier);
                         enemies.Add(soldier);
-                        enemyCount++;
-                        await Task.Delay(500);  
 
                     }
+                    else continue;
+
+                    enemyCount++;
+                    await Task.Delay(500); //maybe pass time between enemies spawning as argument?
+
                 }
             }
             spawningEnemies = false;
         }
         public void StartTurn() //starts next turn
-        {
+        {   
             if(turnEnd == true && rzuf.alive == true) 
-            {
+            {   
                 turn++;
+
+                rzuf.Heal(0.5);
+                rzuf.LvUp();
+
                 SpawnEnemies(turn*5,25,25,25,25); //number of enemies, chance for soldier, turret, armored, angry
                 turnEnd = false;
             }
