@@ -106,7 +106,7 @@ namespace Sim
                         enemies.Add(soldier);
 
                     }
-                    else continue;
+                    
 
                     enemyCount++;
                     await Task.Delay(500); //maybe pass time between enemies spawning as argument?
