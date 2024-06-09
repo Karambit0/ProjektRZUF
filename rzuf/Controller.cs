@@ -22,7 +22,8 @@ namespace Sim
         float closestEnemyDistance = 9999; 
         int turn = 0; //number of turns to calculate enemies' stats
         bool turnEnd = false;
-
+        
+        Timer timer = new Timer();
         bool spawningEnemies = false;
 
         //game objects
@@ -65,10 +66,11 @@ namespace Sim
         {
             TextLibrary.WriteText("Tura: "+turn,width/2-200,10,gui); //turn
             TextLibrary.WriteText("Ilość wrogów w fali: "+enemiesToKill,width/2-50,10,gui); //number of enemies to end turn
-            TextLibrary.WriteText("HP Rzuf: "+rzuf.currentHP+"/"+rzuf.maxHP,width/2-250,50,gui); //current hp of rzuf
+            TextLibrary.WriteText("HP Rzuf: "+rzuf.currentHP+"/"+rzuf.maxHP,width/2-300,50,gui); //current hp of rzuf
             TextLibrary.WriteText("Amunicja Rzuf: "+rzuf.gun.currentAmmo+"/"+rzuf.gun.maxAmmo,width/2,50,gui); //current ammo of rzuf
             TextLibrary.WriteText("Poziom Rzuf: "+rzuf.lv,width/2-250,90,gui); //current rzuf level
             TextLibrary.WriteText("DMG Rzuf: "+rzuf.gun.damage,width/2,90,gui); //current damage of rzuf
+            TextLibrary.WriteText("Czas: "+timer.minutes+":"+timer.seconds,width/2-100,130,gui); //current damage of rzuf
 
         }
         public async void SpawnEnemies(int number, int chanceSoldier, int chanceTurret, int chanceArmoredSoldier, int chanceAngrySoldier, float _xpMultiplayer)
@@ -209,15 +211,18 @@ namespace Sim
                     line.DisplayedString = "Poziom rzuf: "+rzuf.lv;
                 if(line.DisplayedString.Contains("DMG")==true)
                     line.DisplayedString = "DMG rzuf: "+rzuf.gun.damage;
+                if(line.DisplayedString.Contains("Czas")==true &&rzuf.alive==true)
+                    line.DisplayedString = "Czas: "+timer.minutes+":"+timer.seconds;
 
             }
         }
         public void Update() //updates logic of game every frame
         {
-            this.UpdateSounds();
-            this.UpdateGui();
-            this.UpdateEnemies();
-            this.UpdatePlayer();
+            timer.StartTimer();
+            UpdateSounds();
+            UpdateGui();
+            UpdateEnemies();
+            UpdatePlayer();
 
         }
         //game rendering
