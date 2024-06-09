@@ -12,7 +12,7 @@ namespace Sim
         static Texture soldierSprite = new Texture("resources/sprites/soldier.png");
         static Texture turretSprite = new Texture("resources/sprites/turret.png");
         static Texture armoredSoldierSprite = new Texture("resources/sprites/armoredsoldier.png");
-        static Texture armoredSoldierShieldSprite = new Texture("resources/sprites/armoredsoldier.png");
+        static Texture armoredSoldierShieldSprite = new Texture("resources/sprites/armoredsoldiershield.png");
         static Texture angrySoldierSprite = new Texture("resources/sprites/angrysoldier.png");
         static Texture hurtSprite = new Texture("resources/sprites/soldierHurt.png");
 

@@ -55,6 +55,10 @@ namespace Sim
                     moveTimeCounter += moveTime;
                 }  
             }
+            if(shield == true)
+              TextureLibrary.SetSprite("armored soldier shield",this);
+            else
+              TextureLibrary.SetSprite("armored soldier",this);
         }
       // soldeir have shield up when it moves and as long as it is up it cant take any damdage
       public override int TakeDamage(double _damage)

@@ -74,10 +74,6 @@ namespace Sim
                   Attack(damage,_rzuf);
                   SoundLibrary.PlaySound("bonk",Controller.sounds);
                   delay += attackDelay;
-
-                  //not neccecery as program shoudn't be able to rach Move()
-                  //speed.X = 0;
-                  //speed.Y = 0;
                 }
               else
                 Move(_rzuf.position);
