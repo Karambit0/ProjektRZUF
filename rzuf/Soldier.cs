@@ -46,7 +46,7 @@ namespace Sim
 
         public Soldier(int _turn, int _width, int _height, float _xpMultiplayer)
         {
-          maxHP = _turn*10; //to do: better equation to calculate hp, in turn 10 difference between each class will be marginal
+          maxHP = _turn*8; //to do: better equation to calculate hp, in turn 10 difference between each class will be marginal
           currentHP = maxHP; 
           damage = 5+_turn*2.0;
 
@@ -72,7 +72,7 @@ namespace Sim
               if(Utility.Distance(position,_rzuf.position) <= attackRange)
                 {
                   Attack(damage,_rzuf);
-                  SoundLibrary.PlaySound("bonk",Controller.sounds);
+                  //SoundLibrary.PlaySound("bonk",Controller.sounds);
                   delay += attackDelay;
                 }
               else
@@ -96,7 +96,7 @@ namespace Sim
         public override int Die()
         {
           alive = false;
-          SoundLibrary.PlaySound("oof",Controller.sounds);
+          //SoundLibrary.PlaySound("oof",Controller.sounds);
           return xpPerKill;
         }
 
