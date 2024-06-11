@@ -141,7 +141,7 @@ namespace Sim
             if(turnEnd == true && rzuf.alive == true) 
             {   
                 turn++;
-                enemiesToKill = turn*5;
+                enemiesToKill = turn*4;
                 SpawnEnemies(enemiesToKill,25,25,25,25,1.0F); //number of enemies, chance for soldier, turret, armored, angry
                 rzuf.LvUp();
                 rzuf.Heal(rzuf.heal);
@@ -151,12 +151,15 @@ namespace Sim
         //game logic
         void UpdatePlayer()
         { 
-            foreach(Soldier soldier in enemies) //checks which enemy is closest to rzuf 
+            foreach(Soldier soldier in enemies.ToList()) //checks which enemy is closest to rzuf 
             {
-                if(soldier.distance<closestEnemyDistance)
+                if(soldier!=null)
                 {
-                closestEnemyDistance = soldier.distance;
-                closestEnemy = soldier;
+                    if(soldier.distance<closestEnemyDistance)
+                    {
+                    closestEnemyDistance = soldier.distance;
+                    closestEnemy = soldier;
+                    }
                 }
             }
             if(enemyCount!=0 &&rzuf.alive == true) //so rzuf cannot shot when there's no enemies on screen
@@ -169,13 +172,14 @@ namespace Sim
         }
         void UpdateEnemies()
         {
+            
                 //moving enemies
             foreach(Soldier soldier in enemies.ToList()) 
-            {   
-                //hp bar is always under an enemy and is as long as its hp
-                soldier.hpBar.Position = new Vector2f(soldier.position.X,soldier.position.Y+110);
-                soldier.hpBar.Size = new Vector2f((float)(soldier.currentHP/soldier.maxHP*100),10);
-                if(soldier.alive == true && rzuf.alive == true) //hmmm not the intended way, but when rzuf is dead all the enemies are cleared
+            {   if(soldier!=null)
+                {//hp bar is always under an enemy and is as long as its hp
+                //soldier.hpBar.Position = new Vector2f(soldier.position.X,soldier.position.Y+110);
+                //soldier.hpBar.Size = new Vector2f((float)(soldier.currentHP/soldier.maxHP*100),10);
+                if(soldier.alive == true && rzuf.alive == true&&soldier!=null) //hmmm not the intended way, but when rzuf is dead all the enemies are cleared
                     soldier.Act(rzuf);
                 else    //deletes enemy from list when they're dead
                 {
@@ -183,6 +187,7 @@ namespace Sim
                     enemiesToKill--;
                     enemyCount--;
                     closestEnemyDistance = 9999;
+                }
                 }
             }
         }

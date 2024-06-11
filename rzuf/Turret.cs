@@ -21,7 +21,7 @@ namespace Sim
 
           alive = true;
           SetPosition(_width,_height);
-          CreateHpBar();
+          //CreateHpBar();
 
           //turet have some delay at the spawn to give Rzuf time to react
           delay = 120;

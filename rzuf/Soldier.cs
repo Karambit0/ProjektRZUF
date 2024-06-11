@@ -58,7 +58,7 @@ namespace Sim
 
           alive = true;
           SetPosition(_width,_height);
-          CreateHpBar();
+          //CreateHpBar();
         }
 
         public Soldier()

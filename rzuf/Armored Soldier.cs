@@ -21,7 +21,7 @@ namespace Sim
 
           alive = true;
           SetPosition(_width,_height);
-          CreateHpBar();
+          //CreateHpBar();
           shield = false;
 
           //move time indicates how long armored soldeir moves before it stops
