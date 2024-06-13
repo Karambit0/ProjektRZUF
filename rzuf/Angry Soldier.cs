@@ -7,7 +7,7 @@ namespace Sim
 
         public AngrySoldier(int _turn, int _width, int _height, float _xpMultiplayer)
         {
-          maxHP = _turn*10; //to do: better equation to calculate hp, in turn 10 difference between each class will be marginal
+          maxHP = _turn*7.5; //to do: better equation to calculate hp, in turn 10 difference between each class will be marginal
           currentHP = maxHP; 
           damage = 5+_turn*2.5;
 
@@ -19,7 +19,7 @@ namespace Sim
 
           alive = true;
           SetPosition(_width,_height);
-          //CreateHpBar();
+          CreateHpBar();
         }
        
         
@@ -37,7 +37,7 @@ namespace Sim
               if(Utility.Distance(position,_rzuf.position) <= attackRange)
                 {
                   Attack(damage,_rzuf);
-                  //SoundLibrary.PlaySound("bonk",Controller.sounds);
+                  SoundLibrary.PlaySound("bonk",Controller.sounds);
                   delay += attackDelay;
                 }
               else

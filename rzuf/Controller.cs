@@ -15,16 +15,13 @@ namespace Sim
         uint frameRate; //de framerate
 
         //game variables
-        public static int width,height, framerate; //width and height of window for easier use
+        int width,height; //width and height of window for easier use
         public int enemyCount = 0; //how many enemies are on screen
 
         public int enemiesToKill;
         float closestEnemyDistance = 9999; 
         int turn = 0; //number of turns to calculate enemies' stats
         bool turnEnd = false;
-        double waitTime;
-
-        int countSoldier=0,countTurret=0,countAngry=0, countArmor=0;
         
         Timer timer = new Timer();
         bool spawningEnemies = false;
@@ -74,10 +71,6 @@ namespace Sim
             TextLibrary.WriteText("Poziom Rzuf: "+rzuf.lv,width/2-250,90,gui); //current rzuf level
             TextLibrary.WriteText("DMG Rzuf: "+rzuf.gun.damage,width/2,90,gui); //current damage of rzuf
             TextLibrary.WriteText("Czas: "+timer.minutes+":"+timer.seconds,width/2-100,130,gui); //current damage of rzuf
-            TextLibrary.WriteText("Soldier: "+countSoldier,width/2,height-50,gui); //soldiers spawned
-            TextLibrary.WriteText("Angry: "+countAngry,width/2,height-90,gui); //angry soldiers spawned
-            TextLibrary.WriteText("Armored: "+countArmor,width/2,height-130,gui); //armored soldiers spawned
-            TextLibrary.WriteText("Turret: "+countTurret,width/2,height-170,gui); //turrets spawned
 
         }
         public async void SpawnEnemies(int number, int chanceSoldier, int chanceTurret, int chanceArmoredSoldier, int chanceAngrySoldier, float _xpMultiplayer)
@@ -102,35 +95,30 @@ namespace Sim
                         Soldier soldier = new Soldier(turn, width, height, _xpMultiplayer);
                         TextureLibrary.SetSprite("soldier",soldier);
                         enemies.Add(soldier);
-                        countSoldier++;
                     }
                     if(losulosu>=chanceSoldier&&losulosu<chanceSoldier+chanceTurret)
                     {  //spawns turret and waits 0.5sec
                         Soldier soldier = new Turret(turn, width, height, _xpMultiplayer);
                         TextureLibrary.SetSprite("turret",soldier);
                         enemies.Add(soldier);
-                        countTurret++;
                     }
                     if(losulosu>=chanceSoldier+chanceTurret&&losulosu<chanceSoldier+chanceTurret+chanceArmoredSoldier)
                     {  //spawns armored soldier and waits 0.5sec
                         Soldier soldier = new ArmoredSoldier(turn, width, height, _xpMultiplayer);
                         TextureLibrary.SetSprite("armored soldier",soldier);
                         enemies.Add(soldier);
-                        countArmor++;
                     }
                     if(losulosu>=chanceSoldier+chanceTurret+chanceArmoredSoldier&&losulosu<=100)
                     {  //spawns angry soldier and waits 0.5sec
                         Soldier soldier = new AngrySoldier(turn, width, height, _xpMultiplayer);
                         TextureLibrary.SetSprite("angry soldier",soldier);
                         enemies.Add(soldier);
-                        countAngry++;
 
                     }
                     
 
                     enemyCount++;
-                    waitTime = (1000.0/framerate*30);
-                    await Task.Delay((int)waitTime); //maybe pass time between enemies spawning as argument?
+                    await Task.Delay(500); //maybe pass time between enemies spawning as argument?
 
                 }
             }
@@ -141,7 +129,7 @@ namespace Sim
             if(turnEnd == true && rzuf.alive == true) 
             {   
                 turn++;
-                enemiesToKill = turn*4;
+                enemiesToKill = turn*5;
                 SpawnEnemies(enemiesToKill,25,25,25,25,1.0F); //number of enemies, chance for soldier, turret, armored, angry
                 rzuf.LvUp();
                 rzuf.Heal(rzuf.heal);
@@ -151,15 +139,12 @@ namespace Sim
         //game logic
         void UpdatePlayer()
         { 
-            foreach(Soldier soldier in enemies.ToList()) //checks which enemy is closest to rzuf 
+            foreach(Soldier soldier in enemies) //checks which enemy is closest to rzuf 
             {
-                if(soldier!=null)
+                if(soldier.distance<closestEnemyDistance)
                 {
-                    if(soldier.distance<closestEnemyDistance)
-                    {
-                    closestEnemyDistance = soldier.distance;
-                    closestEnemy = soldier;
-                    }
+                closestEnemyDistance = soldier.distance;
+                closestEnemy = soldier;
                 }
             }
             if(enemyCount!=0 &&rzuf.alive == true) //so rzuf cannot shot when there's no enemies on screen
@@ -172,14 +157,13 @@ namespace Sim
         }
         void UpdateEnemies()
         {
-            
                 //moving enemies
             foreach(Soldier soldier in enemies.ToList()) 
-            {   if(soldier!=null)
-                {//hp bar is always under an enemy and is as long as its hp
-                //soldier.hpBar.Position = new Vector2f(soldier.position.X,soldier.position.Y+110);
-                //soldier.hpBar.Size = new Vector2f((float)(soldier.currentHP/soldier.maxHP*100),10);
-                if(soldier.alive == true && rzuf.alive == true&&soldier!=null) //hmmm not the intended way, but when rzuf is dead all the enemies are cleared
+            {   
+                //hp bar is always under an enemy and is as long as its hp
+                soldier.hpBar.Position = new Vector2f(soldier.position.X,soldier.position.Y+110);
+                soldier.hpBar.Size = new Vector2f((float)(soldier.currentHP/soldier.maxHP*100),10);
+                if(soldier.alive == true && rzuf.alive == true) //hmmm not the intended way, but when rzuf is dead all the enemies are cleared
                     soldier.Act(rzuf);
                 else    //deletes enemy from list when they're dead
                 {
@@ -187,7 +171,6 @@ namespace Sim
                     enemiesToKill--;
                     enemyCount--;
                     closestEnemyDistance = 9999;
-                }
                 }
             }
         }
@@ -230,14 +213,7 @@ namespace Sim
                     line.DisplayedString = "DMG rzuf: "+rzuf.gun.damage;
                 if(line.DisplayedString.Contains("Czas")==true &&rzuf.alive==true)
                     line.DisplayedString = "Czas: "+timer.minutes+":"+timer.seconds;
-                if(line.DisplayedString.Contains("Soldier")==true &&rzuf.alive==true)
-                    line.DisplayedString = "Soldier: "+countSoldier;
-                if(line.DisplayedString.Contains("Angry")==true &&rzuf.alive==true)
-                    line.DisplayedString = "Angry: "+countAngry;
-                if(line.DisplayedString.Contains("Armored")==true &&rzuf.alive==true)
-                    line.DisplayedString = "Armored: "+countArmor;
-                if(line.DisplayedString.Contains("Turret")==true &&rzuf.alive==true)
-                    line.DisplayedString = "Turret: "+countTurret;
+
             }
         }
         public void Update() //updates logic of game every frame
@@ -295,16 +271,15 @@ namespace Sim
             this.window.Display();
         }
         //constructors
-        public Controller(uint _width, uint _height, uint _fps)
+        public Controller(uint width, uint height, uint fps)
         {
-            videoMode.Width = _width;
-            videoMode.Height = _height;
-            width = checked((int)_width);
-            height = checked((int)_height);
-            frameRate = _fps;
-            framerate = checked((int)_fps);
-            window = new RenderWindow(videoMode,"Rzuf!");
-            window.SetFramerateLimit(frameRate);
+            this.videoMode.Width = width;
+            this.videoMode.Height = height;
+            this.width = checked((int)width);
+            this.height = checked((int)height);
+            this.frameRate = fps;
+            this.window = new RenderWindow(this.videoMode,"Rzuf!");
+            this.window.SetFramerateLimit(frameRate);
         }
     }
 

@@ -21,7 +21,7 @@ namespace Sim
 
           alive = true;
           SetPosition(_width,_height);
-          //CreateHpBar();
+          CreateHpBar();
 
           //turet have some delay at the spawn to give Rzuf time to react
           delay = 120;
@@ -32,11 +32,11 @@ namespace Sim
         }
 
         
-        int maxAmmo, currentAmmo, realoadDelay;
+        int maxAmmo, currentAmmo, realoadDelay=15;
 
         private void Reload()
         {
-            //SoundLibrary.PlaySound("reload",Controller.sounds); //to do: different reload for turret
+            SoundLibrary.PlaySound("reload",Controller.sounds); //to do: different reload for turret
             currentAmmo=maxAmmo;
             delay+=realoadDelay;
         }
@@ -50,7 +50,7 @@ namespace Sim
                 {   
                   if(currentAmmo>0)
                     {
-                      //SoundLibrary.PlaySound("bonk",Controller.sounds); //to do: different gun sound for turret
+                      SoundLibrary.PlaySound("bonk",Controller.sounds); //to do: different gun sound for turret
                       Attack(damage,_rzuf);
                       currentAmmo--;
                       delay += attackDelay;
@@ -62,7 +62,7 @@ namespace Sim
         public override int Die()
         {
           alive = false;
-          //SoundLibrary.PlaySound("turret oof",Controller.sounds);
+          SoundLibrary.PlaySound("turret oof",Controller.sounds);
           return xpPerKill;
         }
 

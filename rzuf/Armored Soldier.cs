@@ -21,7 +21,7 @@ namespace Sim
 
           alive = true;
           SetPosition(_width,_height);
-          //CreateHpBar();
+          CreateHpBar();
           shield = false;
 
           //move time indicates how long armored soldeir moves before it stops
@@ -39,7 +39,7 @@ namespace Sim
               if(Utility.Distance(position,_rzuf.position) <= attackRange)
                 {
                   Attack(damage,_rzuf);
-                  //SoundLibrary.PlaySound("bonk",Controller.sounds);
+                  SoundLibrary.PlaySound("bonk",Controller.sounds);
                   delay += attackDelay;
                 }
               else
