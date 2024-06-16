@@ -7,14 +7,15 @@ namespace Sim
     {
         protected double damage;
         public float baseSpeed, distance; 
-        protected Vector2f speed; //sped
-        Random losu = new Random(); //random bullshit generator
+        protected Vector2f speed;
+        Random losu = new Random(); //random number generator
         public RectangleShape hpBar = new RectangleShape();
         protected int attackDelay;
         protected int attackRange;
          protected int xpPerKill;
       
-        public static Vector2f SetSpeed(Vector2f _position, Vector2f _target, float _baseSpeed) //sets speed vector so enemy goes straight to rzuf
+        //sets speed vector, so enemy goes straight to rzuf
+        public static Vector2f SetSpeed(Vector2f _position, Vector2f _target, float _baseSpeed) 
         {
             Vector2f tempSpeed = new Vector2f
             {
@@ -24,9 +25,9 @@ namespace Sim
 
             return tempSpeed;
         }
-         public virtual void SetPosition(int width, int height) //randomizes enemy position
+        //randomizes enemy position. enemies can only spawn 1/6 width from left or right to give rzuf some time to react
+         public virtual void SetPosition(int width, int height) 
         { 
-          //enemies can only spawn 300px from left or right to give rzuf some time
             int losulosu;
                 losulosu = losu.Next(0,2); //gives equal chance to spawn on left or on right
                     if(losulosu == 0)
@@ -40,13 +41,13 @@ namespace Sim
         {
           hpBar.Position = new Vector2f(position.X,position.Y+110);
           hpBar.Size = new Vector2f(100, 10); 
-          hpBar.FillColor = new Color(255,0,0); //rgb
+          hpBar.FillColor = new Color(255,0,0); 
         }
         
 
-        public Soldier(int _turn, int _width, int _height, float _xpMultiplayer)
+        public Soldier(int _turn, int _width, int _height, double _xpMultiplayer)
         {
-          maxHP = _turn*10; //to do: better equation to calculate hp, in turn 10 difference between each class will be marginal
+          maxHP = _turn*10; 
           currentHP = maxHP; 
           damage = 5+_turn*2.0;
 
@@ -63,7 +64,7 @@ namespace Sim
 
         public Soldier()
         {}
-
+        //angry soldier actions: sets a course to rzuf, when near rzuf - attacks
         public virtual void Act(Creature _rzuf)
         {
             if(delay!=0) delay--;
@@ -79,7 +80,7 @@ namespace Sim
                 Move(_rzuf.position);
             }
         }
-        //moves towards position indicated by _target
+        //moves towards a set of coordinates
         protected void Move(Vector2f _target)
         { 
           speed = SetSpeed(position, _target, baseSpeed);

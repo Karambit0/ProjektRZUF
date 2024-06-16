@@ -8,7 +8,8 @@ namespace Sim
         public int timeElapsed = 0;
         public int inSeconds, seconds =0, minutes= 0;
 
-        public void StartTimer()
+        //counts how many frames passed since creating a timer
+        public void CountTime()
         {
             timeElapsed++;
             Utility.ConvertTime(this);

@@ -7,13 +7,14 @@ namespace Sim
 {
     class Rzuf : Creature
     {
-        int xp,xpToLv;
+        private int xp,xpToLv;
+        private double waitTime;
 
-        public float baseHp, heal;
+        public double baseHp, heal;
         public int lv;
         public Weapon gun;
 
-        //heals rzuf by portion of thier max hp 
+        //heals rzuf by set percentage of hp 
          public void Heal(double _heal)
         {
             currentHP = currentHP + maxHP * _heal;
@@ -21,7 +22,7 @@ namespace Sim
 
         }
 
-        // lv ups rzuf as many times as it can incresing rzuf statistics
+        // lv ups rzuf as many times as it can after each turn, increasing rzuf stats in process
         public void LvUp()
         {
             while(xp>=xpToLv)
@@ -30,28 +31,30 @@ namespace Sim
                 maxHP =baseHp*lv;
 
                 gun.damage +=5;
-                gun.maxAmmo = 10+(int)Math.Floor(lv*0.5);
+                gun.maxAmmo = gun.maxAmmo+(int)Math.Floor(lv*0.5);
 
                 xp -= xpToLv;
                 xpToLv += 100;   
             }
 
         }
-
+        //attacks enemy and adds xp to rzuf
         public override void Attack(double _damage, Creature _target)
         {
            xp += _target.TakeDamage(_damage);
 
         }
+        //rzuf dies, changes apperance and special sound plays
         public override int Die()
         {
             alive = false;
             TextureLibrary.SetSprite("rzuf dead",this);
             SoundLibrary.PlaySound("rzuf oof",Controller.sounds);
-            return 0; //to do: game ends
+            return 0;
         }
+        //rzuf actions: shoots at closest enemy if ammo is present, if not - reloads
         public async void Act(Creature _enemy)
-        {   //LvUp();
+        { 
             if(delay!=0) delay--;
             else
             {
@@ -59,7 +62,8 @@ namespace Sim
                 {   gun.isReloading = true;
                     delay = 90;
                     SoundLibrary.PlaySound("reload",Controller.sounds);
-                    await Task.Delay(1500);
+                    waitTime = (1000.0/Controller.currentFrameRate*90);
+                    await Task.Delay((int)waitTime);
                     gun.Reload();
                     gun.isReloading = false;
                 }
@@ -72,7 +76,7 @@ namespace Sim
                 }   
             }
         }
-        public Rzuf (int _maxHP, int _damage, int _attackDelay, int _maxAmmo, float _heal)
+        public Rzuf (int _maxHP, int _damage, int _attackDelay, int _maxAmmo, double _heal)
         {
             baseHp = _maxHP;
             currentHP = baseHp;
@@ -89,16 +93,17 @@ namespace Sim
     class Weapon
     {
         public int damage, attackDelay;
-        public Sprite sprite = new Sprite(); //sprite of the creature
-        public Vector2f position; //contains position.X and position.Y, easier to move objects
+        public Sprite sprite = new Sprite(); 
+        public Vector2f position; 
         public int currentAmmo,maxAmmo;
-        public bool isReloading; //it exists so we can dislapy "przeładowuje" instead of 0/number
-        public List<Sound> sounds = new List<Sound>();
+        public bool isReloading; //it exists so we can dislapy "przeładowuje" instead of 0/number when reloading
+        protected List<Sound> sounds = new List<Sound>(); //list of all gun sounds because sfml moment and there's a lot of them
     
+        //reloads a gun
         public void Reload()
         {
             currentAmmo = maxAmmo;
-            ///
+            
         }
         public Weapon(int _damage, int _attackDelay, int _maxAmmo){
             damage = _damage;

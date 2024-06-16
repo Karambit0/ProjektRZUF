@@ -6,12 +6,11 @@ namespace Sim
     public abstract class Creature
     {
         public double currentHP,maxHP;
-        public bool alive;
+        public bool alive; //is creature alive?
         public int delay; //counter responible of waiting
-        public Vector2f position; //contains position.X and position.Y, easier to move objects
+        public Vector2f position; 
 
-        public Sprite sprite = new Sprite(); //sprite of the creature
-        Texture soldierHurtSprite = new Texture("resources/sprites/soldierHurt.png");
+        public Sprite sprite = new Sprite(); 
 
         public virtual void Attack(double _damage, Creature _target)
         {
@@ -19,11 +18,6 @@ namespace Sim
         }
         public virtual int TakeDamage(double _damage)
         {   
-            if(this.GetType()== typeof(Soldier))
-                {
-                    this.sprite.Texture = soldierHurtSprite;
-                    
-                }
             currentHP -= _damage;
             if(currentHP<=0)
             return Die();

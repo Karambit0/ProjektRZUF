@@ -5,14 +5,14 @@ namespace Sim
         int baseAttackDelay;
         float givenSpeed;
 
-        public AngrySoldier(int _turn, int _width, int _height, float _xpMultiplayer)
+        public AngrySoldier(int _turn, int _width, int _height, double _xpMultiplayer)
         {
-          maxHP = _turn*7.5; //to do: better equation to calculate hp, in turn 10 difference between each class will be marginal
+          maxHP = _turn*7.5; 
           currentHP = maxHP; 
           damage = 5+_turn*2.5;
 
           givenSpeed = 0.5F;
-          attackRange = 100;
+          attackRange = 75;
 
           baseAttackDelay = 60;
           xpPerKill = (int)(_turn*9*_xpMultiplayer);
@@ -22,8 +22,7 @@ namespace Sim
           CreateHpBar();
         }
        
-        
-
+        //angry soldier actions: sets a course to rzuf, when hit increases speed, when near rzuf - attacks
         public override void Act(Creature _rzuf)
         {   
             //move speed increses as hp goes down up to 500% of base 
@@ -44,12 +43,5 @@ namespace Sim
                 Move(_rzuf.position);
             }
         }
-
-
-
-     
     }
-
-
-    
 }

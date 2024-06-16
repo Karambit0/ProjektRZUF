@@ -7,7 +7,7 @@ namespace Sim
       bool shield;
       int moveTime,waitTime,moveTimeCounter;
       
-       public ArmoredSoldier(int _turn, int _width, int _height, float _xpMultiplayer)
+       public ArmoredSoldier(int _turn, int _width, int _height, double _xpMultiplayer)
         {
           maxHP = _turn*15; //to do: better equation to calculate hp, in turn 10 difference between each class will be marginal
           currentHP = maxHP; 
@@ -30,7 +30,7 @@ namespace Sim
           moveTime = 240;
           moveTimeCounter = moveTime;
         }
-
+        //armored soldier actions: sets a course to rzuf, after few seconds stops, uses shield and is invincible for 2 seconds, when near rzuf - attacks
         public override void Act(Creature _rzuf)
         {
             if(delay!=0) delay--;
@@ -60,7 +60,6 @@ namespace Sim
             else
               TextureLibrary.SetSprite("armored soldier",this);
         }
-      // soldeir have shield up when it moves and as long as it is up it cant take any damdage
       public override int TakeDamage(double _damage)
       {     if(!shield)
               currentHP -= _damage;

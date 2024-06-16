@@ -7,10 +7,10 @@ namespace Sim
     class Turret : Soldier
     {   
 
-              Random losu = new Random(); //random bullshit generator
-        public Turret(int _turn, int _width, int _height, float _xpMultiplayer)
+        Random losu = new Random(); //random number generator
+        public Turret(int _turn, int _width, int _height, double _xpMultiplayer)
         {
-          maxHP = _turn*5; //to do: better equation to calculate hp, in turn 10 difference between each class will be marginal
+          maxHP = _turn*5; 
           currentHP = maxHP; 
           damage = 2+_turn*2.0;
 
@@ -23,7 +23,7 @@ namespace Sim
           SetPosition(_width,_height);
           CreateHpBar();
 
-          //turet have some delay at the spawn to give Rzuf time to react
+          //turret have some delay at the spawn to give Rzuf time to react
           delay = 120;
           realoadDelay= 90;
           currentAmmo = 4;
@@ -34,13 +34,14 @@ namespace Sim
         
         int maxAmmo, currentAmmo, realoadDelay=15;
 
+        //reloads itself
         private void Reload()
         {
-            SoundLibrary.PlaySound("reload",Controller.sounds); //to do: different reload for turret
+            SoundLibrary.PlaySound("reload",Controller.sounds); 
             currentAmmo=maxAmmo;
             delay+=realoadDelay;
         }
-
+        //turret actions: spawns, builds itself and attacks rzuf from spawn position
         public override void Act(Creature _rzuf)
         {
             if(delay!=0) delay--;
@@ -50,7 +51,7 @@ namespace Sim
                 {   
                   if(currentAmmo>0)
                     {
-                      SoundLibrary.PlaySound("bonk",Controller.sounds); //to do: different gun sound for turret
+                      SoundLibrary.PlaySound("bonk",Controller.sounds); 
                       Attack(damage,_rzuf);
                       currentAmmo--;
                       delay += attackDelay;
@@ -62,13 +63,11 @@ namespace Sim
         public override int Die()
         {
           alive = false;
-          SoundLibrary.PlaySound("turret oof",Controller.sounds);
           return xpPerKill;
         }
-
-        public override void SetPosition(int width, int height) //randomizes enemy position
+        //randomizes enemy position, turret can only spawn 1/3 width from left or right to give rzuf some time
+        public override void SetPosition(int width, int height)
         { 
-          //enemies can only spawn 300px from left or right to give rzuf some time
             int losulosu;
             losulosu = losu.Next(0,2); //it gives equal chance to spawn on left or on right
                     if(losulosu == 0)
@@ -78,10 +77,5 @@ namespace Sim
                 this.position.Y = losu.Next(0,height-100);
                 sprite.Position = position;
         }
-       
-    
-    }
-
-
-    
+    }  
 }
