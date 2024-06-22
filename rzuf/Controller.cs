@@ -4,21 +4,24 @@ using SFML.System;
 using SFML.Audio;
 using System.Runtime.Versioning;
 using System.Net.Mail;
+using System.Threading.Channels;
 
 namespace Sim
 {
     class Controller
-    {   
+    {   //vairables for simulation output
+        public static Type killer;
+
         //variables for window
         public RenderWindow window; //de window
         VideoMode videoMode; //de resolution
-        uint frameRate; //de framerate
+        static uint frameRate; //de framerate
 
         //game variables
-        public static int width,height, framerate; //width and height of window for easier use
+        public int width,height, framerate; //width and height of window for easier use
         public int enemyCount = 0; //how many enemies are on screen
 
-        public int enemiesToKill;
+        public int enemiesToKill=1;
         float closestEnemyDistance = 9999; 
         int turn = 0; //number of turns to calculate enemies' stats
         bool turnEnd = false;
@@ -27,20 +30,26 @@ namespace Sim
         int countSoldier=0,countTurret=0,countAngry=0, countArmor=0;
         
         Timer timer = new Timer();
-        bool spawningEnemies = false;
+
+        bool spawningEnemies = false; //flag for accesing enemies list, otherwise spawn enemies and update can crash simulation
+
+        bool enemiesAcces = true; 
 
         //game objects
 
-        public static List<Creature> enemies = new List<Creature>(); //list of enemies
-        public static Rzuf rzuf; //player
+        public List<Creature> enemies = new List<Creature>(); //list of enemies
+
+        public Rzuf rzuf; //player
         Random losu = new Random(); //random bullshit generator
         Soldier closestEnemy; //it is temporary Soldier object to make easier for rzuf to shoot to
 
          public Sprite background = new Sprite(); //spaaaaaaaace
 
-        static public List<Sound> sounds = new List<Sound>(); //list of current sounds because SFML momento
+         public List<Sound> sounds = new List<Sound>(); //list of current sounds because SFML momento
 
-        static public List<Text> gui = new List<Text>(); //list of strings of gui
+         public List<Text> gui = new List<Text>(); //list of strings of gui
+
+
 
         //functions
         public bool Running() //checking if window is open
@@ -92,46 +101,63 @@ namespace Sim
             */
             spawningEnemies = true; //without this when first soldier is spawned and killed before spawning next, the next turn was starting
             if(turnEnd==true)
-            {
+            {   
+                
+
                 int losulosu; 
                 for(int i = 0; i<number; i++)
                 {   
+                    if(enemiesAcces == false)
+                        await Task.Delay(100);
+                    else {
+                    enemiesAcces = false;
+                
+
                     losulosu = losu.Next(0,100); //gets random number from 0 to 99
                     if(losulosu>=0&&losulosu<chanceSoldier) 
-                    { //spawns basic soldier and waits 0.5sec
+                    { 
+
+
                         Soldier soldier = new Soldier(turn, width, height, _xpMultiplayer);
                         TextureLibrary.SetSprite("soldier",soldier);
                         enemies.Add(soldier);
                         countSoldier++;
                     }
                     if(losulosu>=chanceSoldier&&losulosu<chanceSoldier+chanceTurret)
-                    {  //spawns turret and waits 0.5sec
+                    {  
+
+
                         Soldier soldier = new Turret(turn, width, height, _xpMultiplayer);
                         TextureLibrary.SetSprite("turret",soldier);
                         enemies.Add(soldier);
                         countTurret++;
                     }
                     if(losulosu>=chanceSoldier+chanceTurret&&losulosu<chanceSoldier+chanceTurret+chanceArmoredSoldier)
-                    {  //spawns armored soldier and waits 0.5sec
+                    {  
+
+
                         Soldier soldier = new ArmoredSoldier(turn, width, height, _xpMultiplayer);
                         TextureLibrary.SetSprite("armored soldier",soldier);
                         enemies.Add(soldier);
                         countArmor++;
                     }
                     if(losulosu>=chanceSoldier+chanceTurret+chanceArmoredSoldier&&losulosu<=100)
-                    {  //spawns angry soldier and waits 0.5sec
+                    {  
+                        
                         Soldier soldier = new AngrySoldier(turn, width, height, _xpMultiplayer);
                         TextureLibrary.SetSprite("angry soldier",soldier);
                         enemies.Add(soldier);
                         countAngry++;
 
                     }
-                    
+                    enemiesAcces = true;                   
 
                     enemyCount++;
                     waitTime = (1000.0/framerate*30);
                     await Task.Delay((int)waitTime); //maybe pass time between enemies spawning as argument?
 
+                    }
+                    
                 }
             }
             spawningEnemies = false;
@@ -142,15 +168,19 @@ namespace Sim
             {   
                 turn++;
                 enemiesToKill = turn*4;
-                SpawnEnemies(enemiesToKill,25,25,25,25,1.0F); //number of enemies, chance for soldier, turret, armored, angry
+                SpawnEnemies(enemiesToKill,0,0,100,0,1.0F); //number of enemies, chance for soldier, turret, armored, angry
                 rzuf.LvUp();
                 rzuf.Heal(rzuf.heal);
                 turnEnd = false;
             }
         }
         //game logic
-        void UpdatePlayer()
-        { 
+        async void UpdatePlayer()
+        {   
+            if(enemiesAcces == false)
+                        await Task.Delay(100);
+            else {
+                enemiesAcces = false;
             foreach(Soldier soldier in enemies.ToList()) //checks which enemy is closest to rzuf 
             {
                 if(soldier!=null)
@@ -162,6 +192,9 @@ namespace Sim
                     }
                 }
             }
+                enemiesAcces = true;
+            }
+
             if(enemyCount!=0 &&rzuf.alive == true) //so rzuf cannot shot when there's no enemies on screen
             {rzuf.Act(closestEnemy); //shoots closest enemy
             float degrees = Utility.GetAngle(closestEnemy.position,rzuf.gun.position);
@@ -248,6 +281,20 @@ namespace Sim
             UpdateEnemies();
             UpdatePlayer();
 
+            if(rzuf.alive==false || timer.minutes >= 20)
+            {   
+                System.Console.WriteLine("Time: " + timer + " ; turn: " + turn+ " ; lv: "+ rzuf.lv + " ; killer: "+killer );
+                  string docPath =
+                        Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+
+                    using (StreamWriter outputFile = new StreamWriter(Path.Combine(docPath, "test.txt"), true))
+                    outputFile.WriteLine(timer + " ; " + turn+ " ; "+ rzuf.lv + " ; "+killer);
+                //for some reson tnew instances of controler keeps enemy list?    
+                enemies.Clear();
+                this.window.Close();
+
+            }
+
         }
         //game rendering
         public void SetBackground(string _type) 
@@ -296,7 +343,9 @@ namespace Sim
         }
         //constructors
         public Controller(uint _width, uint _height, uint _fps)
-        {
+        {   
+            
+
             videoMode.Width = _width;
             videoMode.Height = _height;
             width = checked((int)_width);
@@ -305,6 +354,8 @@ namespace Sim
             framerate = checked((int)_fps);
             window = new RenderWindow(videoMode,"Rzuf!");
             window.SetFramerateLimit(frameRate);
+
+            killer = typeof(Time);
         }
     }
 

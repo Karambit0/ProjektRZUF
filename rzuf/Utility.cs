@@ -21,7 +21,7 @@ namespace Sim
             else
             return (float)Math.Acos((_v1.X-_v2.X)/Distance(_v1,_v2))*57.3F;
         }
-        public static void ConvertTime(Timer _timer) //closest enemy position, gun position
+        public static void ConvertTime(Timer _timer)
         {
             _timer.inSeconds = (int)(_timer.timeElapsed/60);
             _timer.minutes = _timer.inSeconds/60-(_timer.inSeconds/60-(int)(_timer.inSeconds/60));

@@ -12,7 +12,6 @@ namespace Sim
         public float baseHp, heal;
         public int lv;
         public Weapon gun;
-        double waitTime;
 
         //heals rzuf by portion of thier max hp 
          public void Heal(double _heal)
@@ -49,19 +48,18 @@ namespace Sim
             alive = false;
             TextureLibrary.SetSprite("rzuf dead",this);
             //SoundLibrary.PlaySound("rzuf oof",Controller.sounds);
-            return 0; //to do: game ends
+            return 1; //to do: game ends
         }
-        public async void Act(Creature _enemy)
-        {   //LvUp();
-            if(delay!=0) delay--;
+        public void Act(Creature _enemy)
+        { 
+            if(delay!=0) {delay--;}
             else
             {
                 if (gun.currentAmmo ==0)
                 {   gun.isReloading = true;
-                    delay = 90;
+                    delay = 180;
                     //SoundLibrary.PlaySound("reload",Controller.sounds);
-                    waitTime = (1000.0/Controller.framerate*90);
-                    await Task.Delay((int)waitTime);
+                
                     gun.Reload();
                     gun.isReloading = false;
                 }
@@ -100,7 +98,7 @@ namespace Sim
         public void Reload()
         {
             currentAmmo = maxAmmo;
-            ///
+
         }
         public Weapon(int _damage, int _attackDelay, int _maxAmmo){
             damage = _damage;

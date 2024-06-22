@@ -4,7 +4,8 @@ using SFML.System;
 namespace Sim
 {
     public abstract class Creature
-    {
+    {   
+
         public double currentHP,maxHP;
         public bool alive;
         public int delay; //counter responible of waiting
@@ -15,7 +16,11 @@ namespace Sim
 
         public virtual void Attack(double _damage, Creature _target)
         {
-            _target.TakeDamage(_damage);
+           if(_target.TakeDamage(_damage)==1)
+           {
+                Controller.killer = this.GetType();
+
+           } 
         }
         public virtual int TakeDamage(double _damage)
         {   

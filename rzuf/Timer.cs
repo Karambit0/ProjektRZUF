@@ -1,5 +1,6 @@
 using SFML.System;
 using SFML.Audio;
+using System.Diagnostics.Contracts;
 namespace Sim
 {
 
@@ -12,7 +13,12 @@ namespace Sim
         {
             timeElapsed++;
             Utility.ConvertTime(this);
-        }    
+        }
+
+        public override string ToString()
+        {
+            return Convert.ToString(timeElapsed); 
+        }
 
     }
 
