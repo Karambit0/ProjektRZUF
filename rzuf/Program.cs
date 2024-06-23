@@ -24,7 +24,7 @@ namespace Sim
             controller.window.Closed += controller.HandleClose;
             //spawn creatures
             controller.SetBackground("space"); //space or battlefield
-            controller.SpawnPlayer(100,20,30,10,1.0F); //maxHP, damage, attackDelay, maxAmmo, how much hp heal per turn
+            controller.SpawnPlayer(100,20,50,10,1.0F); //maxHP, damage, attackDelay, maxAmmo, how much hp heal per turn
             controller.CreateGui();
 
             

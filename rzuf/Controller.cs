@@ -108,7 +108,7 @@ namespace Sim
                 for(int i = 0; i<number; i++)
                 {   
                     if(enemiesAcces == false)
-                        await Task.Delay(100);
+                        await Task.Delay(10);
                     else {
                     enemiesAcces = false;
                 
@@ -168,7 +168,7 @@ namespace Sim
             {   
                 turn++;
                 enemiesToKill = turn*4;
-                SpawnEnemies(enemiesToKill,0,0,100,0,1.0F); //number of enemies, chance for soldier, turret, armored, angry
+                SpawnEnemies(enemiesToKill,25,25,25,25,1.0F); //number of enemies, chance for soldier, turret, armored, angry
                 rzuf.LvUp();
                 rzuf.Heal(rzuf.heal);
                 turnEnd = false;
@@ -178,7 +178,7 @@ namespace Sim
         async void UpdatePlayer()
         {   
             if(enemiesAcces == false)
-                        await Task.Delay(100);
+                        await Task.Delay(10);
             else {
                 enemiesAcces = false;
             foreach(Soldier soldier in enemies.ToList()) //checks which enemy is closest to rzuf 
@@ -203,9 +203,13 @@ namespace Sim
             if(enemyCount ==0 && spawningEnemies == false)
                 turnEnd = true; //rzuf is always on screen, so he can control if all enemies are dead and next turn can be started
         }
-        void UpdateEnemies()
+        async void UpdateEnemies()
         {
-            
+             if(enemiesAcces == false)
+                        await Task.Delay(10);
+            else {
+
+                enemiesAcces = false;
                 //moving enemies
             foreach(Soldier soldier in enemies.ToList()) 
             {   if(soldier!=null)
@@ -222,6 +226,8 @@ namespace Sim
                     closestEnemyDistance = 9999;
                 }
                 }
+            }
+            enemiesAcces = true;
             }
         }
         void UpdateSounds() //sound in SFML are stupid, so this function deletes all stopped sounds so computer not explode XD
@@ -310,13 +316,20 @@ namespace Sim
             this.window.Draw(rzuf.sprite);
             this.window.Draw(rzuf.gun.sprite);
         }
-        void RenderEnemies() //draws enemies sprites
+        async void RenderEnemies() //draws enemies sprites
         {  
+            if(enemiesAcces == false)
+                        await Task.Delay(10);
+            else {
+                enemiesAcces = false;
+
             foreach(Soldier soldier in enemies.ToList())
            {
             window.Draw(soldier.sprite);
             window.Draw(soldier.hpBar);
            }
+            enemiesAcces = true;
+            }
         }
         void RenderGui() //draws enemies sprites
         {  

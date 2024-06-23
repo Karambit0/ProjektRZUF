@@ -30,7 +30,7 @@ namespace Sim
                 maxHP =baseHp*lv;
 
                 gun.damage +=5;
-                gun.maxAmmo = 10+(int)Math.Floor(lv*0.5);
+                gun.maxAmmo = gun.startAmmo+(int)Math.Floor(lv*0.5);
 
                 xp -= xpToLv;
                 xpToLv += 100;   
@@ -94,6 +94,8 @@ namespace Sim
         public int currentAmmo,maxAmmo;
         public bool isReloading; //it exists so we can dislapy "przeładowuje" instead of 0/number
         public List<Sound> sounds = new List<Sound>();
+
+        public int startAmmo;
     
         public void Reload()
         {
@@ -105,6 +107,7 @@ namespace Sim
             attackDelay = _attackDelay;
             maxAmmo = _maxAmmo;
             currentAmmo = maxAmmo;
+            startAmmo = _maxAmmo;
 
         }
         
